@@ -1,9 +1,9 @@
-const express = require('express');
-const zod = require('zod');
-const { User } = require('../db/db.js');
-const jwt = require('jsonwebtoken'); // Correctly import jsonwebtoken
+const express = require("express");
+const zod = require("zod");
+const { User } = require("../db/db.js");
+const jwt = require("jsonwebtoken"); 
 require("dotenv").config();
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
 const saltRounds = 10;
 
@@ -11,26 +11,36 @@ const saltRounds = 10;
 const signupSchema = zod.object({
   name: zod.string().min(3).max(30),
   email: zod.string().email(),
-  password: zod.string().min(6).max(16)
+  password: zod.string().min(6).max(16),
 });
 
 async function signupMiddleware(req, res, next) {
   const body = req.body;
-  const response = signupSchema.safeParse(body);
 
+  // Checking the format of request obj is correct or not through zod.
+  const response = signupSchema.safeParse(body);
   if (!response.success) {
-    return res.status(400).json({ msg: 'Invalid input credentials' });
+    return res.status(400).json({ msg: "Invalid input credentials" });
   }
 
   try {
+    // Creating token for authenticate on every request.
     const token = jwt.sign(
       { username: body.name, email: body.email },
       process.env.SECRET_KEY,
-      { expiresIn: '1h' }
+      { expiresIn: "1h" }
     );
-
+    // Hashing th password
     const hashPassword = await bcrypt.hash(body.password, saltRounds);
 
+    // Checking if email exist in DB
+    const checkEmail = await User.findOne({ email: body.email });
+    if (checkEmail) {
+      console.log("Email is already in use.");
+      return res.status(400).json({ msg: "Email is already in use." });
+    }
+
+    // Posting data to DB
     const user = await User.create({
       name: body.name,
       email: body.email,
@@ -38,11 +48,10 @@ async function signupMiddleware(req, res, next) {
     });
 
     console.log(user);
-    return res.json({ msg: 'Account created successfully', token });
-
+    return res.json({ msg: "Account created successfully", token });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ msg: 'Internal server error' });
+    return res.status(500).json({ msg: "Internal server error" });
   }
 }
 
