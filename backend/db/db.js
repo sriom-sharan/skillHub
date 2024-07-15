@@ -19,7 +19,7 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   name: { type: String, required: true, maxlength: 30, minlength: 3 },
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true,minlength:6,maxlength:16 },
+  password: { type: String, required: true },
   qualification: { type: String },
   role: {
     type: String,
