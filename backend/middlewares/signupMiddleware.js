@@ -4,7 +4,9 @@ const { User } = require("../db/db.js");
 const jwt = require("jsonwebtoken"); 
 require("dotenv").config();
 const bcrypt = require("bcrypt");
+const crypto = require("crypto");
 
+const otp = crypto.randomInt(100000, 999999)
 const saltRounds = 10;
 
 // SignUp Schema
@@ -26,7 +28,7 @@ async function signupMiddleware(req, res, next) {
   try {
     // Creating token for authenticate on every request.
     const token = jwt.sign(
-      { username: body.name, email: body.email },
+      { name: body.name, email: body.email },
       process.env.SECRET_KEY,
       { expiresIn: "1h" }
     );
@@ -47,8 +49,10 @@ async function signupMiddleware(req, res, next) {
       password: hashPassword,
     });
 
-    console.log(user);
-    return res.json({ msg: "Account created successfully", token });
+     console.log(user);
+     res.json({ msg: "Account created successfully", token });
+     req.user = user;
+     next();
   } catch (error) {
     console.error(error);
     return res.status(500).json({ msg: "Internal server error" });
