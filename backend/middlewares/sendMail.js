@@ -20,7 +20,7 @@ const sendEmail = async (toEmail, toName, subject, htmlContent) => {
           name: 'SkillHub'
       },
       subject: subject,
-      htmlContent: '<h1>Hello</h1>'
+      htmlContent: htmlContent
   };
 
   try {

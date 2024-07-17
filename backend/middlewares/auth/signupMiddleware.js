@@ -1,12 +1,12 @@
 const express = require("express");
 const zod = require("zod");
-const { User } = require("../db/db.js");
-const jwt = require("jsonwebtoken"); 
+const { User } = require("../../db/db.js");
+const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const bcrypt = require("bcrypt");
+const { sendEmail } = require('../sendMail.js');
 const crypto = require("crypto");
 
-const otp = crypto.randomInt(100000, 999999)
 const saltRounds = 10;
 
 // SignUp Schema
@@ -26,16 +26,16 @@ async function signupMiddleware(req, res, next) {
   }
 
   try {
-    // Creating token for authenticate on every request.
+    // Creating token for authentication on every request.
     const token = jwt.sign(
       { name: body.name, email: body.email },
       process.env.SECRET_KEY,
       { expiresIn: "1h" }
     );
-    // Hashing th password
+    // Hashing the password
     const hashPassword = await bcrypt.hash(body.password, saltRounds);
 
-    // Checking if email exist in DB
+    // Checking if email exists in DB
     const checkEmail = await User.findOne({ email: body.email });
     if (checkEmail) {
       console.log("Email is already in use.");
@@ -49,10 +49,23 @@ async function signupMiddleware(req, res, next) {
       password: hashPassword,
     });
 
-     console.log(user);
-     res.json({ msg: "Account created successfully", token });
-     req.user = user;
-     next();
+    // Generate OTP and update user
+    const otp = crypto.randomInt(100000, 999999); // 6-digit OTP
+    const updateUser = await User.findOneAndUpdate(
+      { email: body.email },
+      { validationCode: otp, validationCodeCreatedAt: new Date() },
+      { new: true }
+    );
+
+    // Send email with OTP
+    sendEmail(
+      user.email,
+      user.name,
+      "Validation of Account",
+      `Your OTP is ${otp} <p>**Do not share this with anyone.**</p>`
+    );
+
+    res.json({ msg: "Account created successfully. OTP has been sent to email.", token });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ msg: "Internal server error" });

@@ -1,6 +1,6 @@
 const express = require("express");
 const zod = require("zod");
-const { User } = require("../db/db.js");
+const { User } = require("../../db/db.js");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const bcrypt = require("bcrypt");
@@ -23,14 +23,14 @@ async function loginMiddleware(req, res, next) {
   }
 
   try {
-    const hashPassword = await bcrypt.hash(body.password, saltRounds);
-    const user = User.findOne({ email: body.email });
+    // Find user by email
+    const user = await User.findOne({ email: body.email });
     if (!user) {
       console.log("User not found");
       return res.status(400).json({ msg: "Invalid email or password" });
     }
 
-    // Compare the provided password with the hashed password
+    // Compare the provided password with the hashed password stored in the database
     const isMatch = await bcrypt.compare(body.password, user.password);
     if (!isMatch) {
       console.log("Password does not match");
@@ -39,7 +39,7 @@ async function loginMiddleware(req, res, next) {
 
     // Generate JWT token
     const token = jwt.sign(
-      { name: body.name, email: body.email },
+      { name: user.name, email: user.email },
       process.env.SECRET_KEY,
       { expiresIn: "1h" }
     );
@@ -51,4 +51,4 @@ async function loginMiddleware(req, res, next) {
   }
 }
 
-module.exports = { loginMiddleware};
+module.exports = { loginMiddleware };
