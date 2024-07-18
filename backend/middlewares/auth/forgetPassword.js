@@ -19,9 +19,7 @@ async function forgetPassword(req, res, next) {
       return res.status(400).json({ msg: "Email does not exist." });
     }
 
-    const token = jwt.sign({ email, name: user.name }, process.env.SECRET_KEY, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign({ email, name: user.name }, process.env.SECRET_KEY);
 
     await sendEmail(
       email,

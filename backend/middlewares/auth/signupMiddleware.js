@@ -29,8 +29,7 @@ async function signupMiddleware(req, res, next) {
     // Creating token for authentication on every request.
     const token = jwt.sign(
       { name: body.name, email: body.email },
-      process.env.SECRET_KEY,
-      { expiresIn: "1h" }
+      process.env.SECRET_KEY
     );
     // Hashing the password
     const hashPassword = await bcrypt.hash(body.password, saltRounds);

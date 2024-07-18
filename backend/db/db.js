@@ -44,6 +44,7 @@ const courseSchema = new Schema(
     name: { type: String, required: true },
     description: { type: String, required: true },
     isPaid: { type: Boolean, default: false },
+    price: { type: Number, required: function() { return this.isPaid; } },
     category: {
       type: String,
       enum: [
@@ -75,8 +76,10 @@ const courseSchema = new Schema(
       ],
       required: true,
     },
-    skills: { type: [String], default: [] },
+    skills: { type: String,required:true },
     author: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    youtubePlaylistId: { type: String,required:true }, // Add this field
+    videos: {type:Object, required:true},
   },
   { timestamps: true }
 );

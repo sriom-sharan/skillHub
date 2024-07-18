@@ -1,14 +1,18 @@
 var express = require('express');
 var router = express.Router();
+const {
+    checkLoginMiddleware,
+  } = require("../middlewares/auth/checkLoginMiddleware.js");
+
+  const {createCourse} = require('../middlewares/course/createCourse.js')
+ 
 
 router.get('/',(req,res,next)=>{
     res.send('All Courses');
 
 });
 
-router.post('/',(req,res,next)=>{
-    res.send('Post Course');
-})
+router.post('/create-cousre',checkLoginMiddleware,createCourse)
 
 router.get('/:courseId',(req,res,next)=>{
     const courseId = req.params.courseId;

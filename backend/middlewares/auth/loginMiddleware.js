@@ -40,8 +40,7 @@ async function loginMiddleware(req, res, next) {
     // Generate JWT token
     const token = jwt.sign(
       { name: user.name, email: user.email },
-      process.env.SECRET_KEY,
-      { expiresIn: "1h" }
+      process.env.SECRET_KEY
     );
     console.log("Login successful");
     return res.json({ msg: "Login successful", token });
