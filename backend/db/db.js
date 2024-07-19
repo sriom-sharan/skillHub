@@ -31,6 +31,7 @@ const userSchema = new Schema(
       // required: true,
     },
     enrolledCourses: [{ type: Schema.Types.ObjectId, ref: "Course" }],
+    createdCourses: [{ type: Schema.Types.ObjectId, ref: "Course" }],
   },
   { timestamps: true }
 );
@@ -78,7 +79,8 @@ const courseSchema = new Schema(
     },
     skills: { type: String,required:true },
     author: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    youtubePlaylistId: { type: String,required:true }, // Add this field
+    enrolledUsers: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    youtubePlaylistId: { type: String,required:true,unique: true }, // Add this field
     videos: {type:Object, required:true},
   },
   { timestamps: true }
@@ -92,7 +94,7 @@ const enrollmentSchema = new Schema(
     enrollmentDate: { type: Date, default: Date.now },
     status: {
       type: String,
-      enum: ["enrolled", "completed", "dropped"],
+      enum: ["enrolled", "completed", "dropped","created"],
       default: "enrolled",
     },
     rating: { type: Number, min: 1, max: 5 },

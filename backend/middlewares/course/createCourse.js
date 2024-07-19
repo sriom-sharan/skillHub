@@ -1,4 +1,4 @@
-const { Course,User } = require("../../db/db.js");
+const { Course, User, Enrollment } = require("../../db/db.js");
 const zod = require("zod");
 const { getPlaylistDetail } = require("./getPlaylistDetail.js");
 
@@ -33,12 +33,12 @@ const courseSchema = zod.object({
     "Health & Fitness",
   ]),
   youtubePlaylistId: zod.string(),
-  skills:zod.string()
+  skills: zod.string(),
 });
 
 async function createCourse(req, res) {
   const body = req.body;
-  const {email} = req.user;
+  const { _id } = req.user;
   const response = courseSchema.safeParse(body);
   if (!response.success) {
     return res.status(400).json({ msg: "Invalid input credentials" });
@@ -46,10 +46,9 @@ async function createCourse(req, res) {
   const { name, description, category, skills, youtubePlaylistId } = body;
 
   try {
-    const userDetail = await User.findOne({ email });
-    if (!userDetail) {
-      console.log("User not found");
-      return res.status(400).json({ msg: "Invalid email or password" });
+    const playlistId = await Course.findOne({ youtubePlaylistId });
+    if (playlistId) {
+      return res.status(400).json({ msg: "Playlist_Id already exist" });
     }
     const videoDetails = await getPlaylistDetail(youtubePlaylistId);
     const videos = videoDetails.map((data) => data.snippet);
@@ -58,9 +57,15 @@ async function createCourse(req, res) {
       description,
       category,
       skills,
-      author:userDetail._id,
+      author: _id,
       youtubePlaylistId,
       videos,
+    });
+    await User.findOneAndUpdate(_id, { $push: { createdCourses: course._id } });
+    const enroll = await Enrollment.create({
+      course: course._id,
+      status: "created",
+      user: _id,
     });
     return res.json({ msg: "Course Created Successfully" });
   } catch (error) {
@@ -68,4 +73,4 @@ async function createCourse(req, res) {
   }
 }
 
-module.exports = {createCourse}
+module.exports = { createCourse };

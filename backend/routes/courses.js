@@ -5,11 +5,11 @@ const {
   } = require("../middlewares/auth/checkLoginMiddleware.js");
 
   const {createCourse} = require('../middlewares/course/createCourse.js')
+  const {enrollCourse} = require('../middlewares/course/enrollCourses.js')
  
 
 router.get('/',(req,res,next)=>{
     res.send('All Courses');
-
 });
 
 router.post('/create-cousre',checkLoginMiddleware,createCourse)
@@ -19,9 +19,7 @@ router.get('/:courseId',(req,res,next)=>{
         res.send('One Courses '+courseId);
 });
 
-router.put('/:courseId',(req,res,next)=>{
-    res.send('Update Course');
-});
+router.put('/enroll',checkLoginMiddleware,enrollCourse);
 
 router.delete('/:courseId',(req,res,next)=>{
     res.send('Delete Course');

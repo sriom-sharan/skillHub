@@ -12,7 +12,12 @@ async function checkLoginMiddleware(req, res, next) {
     try {
       token = headerAuth.split(" ")[1];
       const decoded = jwt.verify(token, process.env.SECRET_KEY);
-      req.user = decoded; // Add the decoded user info to the request
+      const userDetail = await User.findOne({ email:decoded.email });
+      if (!userDetail) {
+        console.log("User not found");
+        return res.status(400).json({ msg: "Invalid email or password" });
+      }
+      req.user = userDetail; // Add the decoded user info to the request
       next();
     } catch (error) {
       res.status(401).json({ message: "Not authorized, token failed" });
