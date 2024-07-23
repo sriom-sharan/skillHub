@@ -67,3 +67,58 @@
     @apply bg-background text-foreground;
   }
 }
+
+.main-gradient{
+  background: rgb(181,113,254);
+  background: -moz-linear-gradient(164deg, rgba(181,113,254,1) 40%, rgba(217,126,211,1) 100%);
+  background: -webkit-linear-gradient(164deg, rgba(181,113,254,1) 40%, rgba(217,126,211,1) 100%);
+  background: linear-gradient(164deg, rgba(181,113,254,1) 40%, rgba(217,126,211,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#b571fe",endColorstr="#d97ed3",GradientType=1); 
+}
+.poppins-thin {
+  font-family: "Poppins", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.poppins-extralight {
+  font-family: "Poppins", sans-serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.poppins-light {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.poppins-regular {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.poppins-medium {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.poppins-semibold {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.poppins-bold {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.poppins-extrabold {
+  font-family: "Poppins", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+}
