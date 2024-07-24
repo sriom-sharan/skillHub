@@ -6,28 +6,27 @@ const {
 
   const {createCourse} = require('../middlewares/course/createCourse.js')
   const {enrollCourse} = require('../middlewares/course/enrollCourses.js')
+  const {getAllCourses} = require('../middlewares/course/getAllCourses.js')
  
+// Get all Courses
+router.get('/', getAllCourses);
 
-router.get('/',(req,res,next)=>{
-    res.send('All Courses');
-});
-
+// Create Course
 router.post('/create-cousre',checkLoginMiddleware,createCourse)
 
+// Get One course
 router.get('/:courseId',(req,res,next)=>{
     const courseId = req.params.courseId;
         res.send('One Courses '+courseId);
 });
 
+// Enroll in Course
 router.put('/enroll',checkLoginMiddleware,enrollCourse);
 
+// Delete the Course
 router.delete('/:courseId',(req,res,next)=>{
     res.send('Delete Course');
 });
 
-router.get('/:courseId/content',(req,res,next)=>{
-    res.send('Courses Description');
-
-});
 
 module.exports = router
