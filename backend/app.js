@@ -11,7 +11,7 @@ var courseRouter = require('./routes/courses');
 var adminRouter = require('./routes/admin');
 var authRouter = require('./routes/auth');
 var enrollRouter = require('./routes/enrollment');
-
+const cors = require('cors')
 var app = express();
 
 // view engine setup
@@ -19,6 +19,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use(logger('dev'));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

@@ -1,14 +1,24 @@
 import Header from "./components/header";
 import Hero from "./components/hero";
-import Marquee from "react-fast-marquee";
-import aws from './assets/awsLogo.png'
 import google from './assets/googleLogo.png'
 import fedx from './assets/fedexLogo.png'
 import microsoft from './assets/microsoftLogo.png'
 import yt from './assets/youtubeLogo.png'
 import ibm from './assets/ibmLogopng.png'
+import { useState,useEffect } from "react";
+import { getCourses } from "./utils/getLists";
 
 function App() {
+
+  const [courses,setCourses] = useState('')
+
+
+  useEffect(()=>{
+  const data = getCourses('https://skillhub-8nsp.onrender.com/courses');
+  console.log(data);
+  setCourses(data)
+  },[])
+
   return (
     <>
       <section className=" h-full sm:px-6 px-4 md:px-10 lg:px-14 xl:px-24  bg-[#FAF5FC] w-full">
@@ -23,7 +33,7 @@ function App() {
           <img src={fedx} className="w-40 object-contain filter brightness-0 contrast-200 invert"/>
           <img src={ibm} className="w-40 object-contain filter brightness-0 contrast-200 invert"/>
       </div>
-      Hello
+      {courses}
     </>
   );
 }
