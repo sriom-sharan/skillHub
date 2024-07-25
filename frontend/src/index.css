@@ -75,6 +75,10 @@
   background: linear-gradient(164deg, rgba(181,113,254,1) 40%, rgba(217,126,211,1) 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#b571fe",endColorstr="#d97ed3",GradientType=1); 
 }
+.main-font-color{
+  color: #a35fec;
+}
+
 .poppins-thin {
   font-family: "Poppins", sans-serif;
   font-weight: 100;
