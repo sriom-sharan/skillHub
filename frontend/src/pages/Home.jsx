@@ -24,7 +24,7 @@ function Home() {
 
   return (
     <>
-      <section className=" h-full sm:px-6 px-4 md:px-10 lg:px-14 xl:px-24  bg-[#FAF5FC] w-full">
+      <section className=" h-full sm:px-6 px-4  md:px-10 lg:px-14 xl:px-24  w-full">
         <Header />
         <Hero />
       </section>
