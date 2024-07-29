@@ -8,6 +8,7 @@ const {
   const {enrollCourse} = require('../middlewares/course/enrollCourses.js')
   const {getAllCourses} = require('../middlewares/course/getAllCourses.js')
   const {getPopularCourses} = require('../middlewares/course/getPopular.js')
+  const {searchCourses} = require('../middlewares/course/searchCourses.js')
  
 // Get all Courses
 router.get('/', getAllCourses);
@@ -31,5 +32,8 @@ router.delete('/:courseId',(req,res,next)=>{
 
 // Get Popular Courses
 router.get('/popular',getPopularCourses);
+
+// Get Search Result
+router.get('/search',searchCourses);
 
 module.exports = router
