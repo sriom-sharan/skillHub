@@ -1,5 +1,7 @@
-import Header from '../components/header';
-import React from 'react';
+import Header from "../components/header";
+import React from "react";
+import Card from "@/components/card";
+import Footer from "@/components/footer";
 
 const Courses = () => {
   const categories = [
@@ -32,12 +34,12 @@ const Courses = () => {
 
   // Define state with initial value
   const [activeTab, setActiveTab] = React.useState(null);
-  const [searchTerm, setSearchTerm] = React.useState('');
+  const [searchTerm, setSearchTerm] = React.useState("");
 
   // Handle tab click
   const onTabClick = (category) => {
     setActiveTab(category);
-    console.log('Selected category:', category);
+    console.log("Selected category:", category);
   };
 
   // Handle search input change
@@ -47,54 +49,75 @@ const Courses = () => {
 
   // Handle search button click
   const onSearchClick = () => {
-    console.log('Search term:', searchTerm);
+    console.log("Search term:", searchTerm);
     // Add search functionality here
   };
 
   return (
     <>
       <Header />
-      <div className="mt-24">
-        <div className='mx-auto flex justify-center'>
+      <h1 className="poppins-regular md:text-6xl sm:text-5xl sm:w-[75%] text-5xl w-[95%] leading-[1.25] text-center md:w-[40rem] mx-auto mt-32">
+        Discover the top courses & playlists
+      </h1>
+      <p className="text-sm md:w-[40rem] w-[90%]   mb-12 mt-6 mx-auto text-center">
+        Explore a transformative approach to skill development on our online
+        learning platform. Uncover a new realm of learning experiences and
+        elevate your expertise in unique ways.
+      </p>
+      <div className=" md:px-10 lg:px-14 xl:px-24 ">
+        {/* Search */}
+        <div className="mx-auto flex  justify-center mt-10">
           <input
-            placeholder='Search'
-            type='text'
-            className='border-2 px-2 py-1 w-72 border-zinc-400 rounded-sm'
+            placeholder="Search 10k+ courses.."
+            type="text"
+            className={`border-[1px] border-r-0 px-4 py-4 md:w-[28rem] w-[20rem] sm:w-[24rem] shadow-purple-500/80 shadow-sm rounded-l-full`}
             value={searchTerm}
             onChange={onSearchChange}
           />
           <button
-            className='border-[1px] px-2 main-gradient rounded-sm text-white py-1'
+            className="border-[1px] px-4 rounded-r-full shadow-purple-500/80  shadow-sm text-white py-1"
             onClick={onSearchClick}
           >
-            🔍 Search
+            <img
+              className="w-9 p-1  dark:contrast-0 bg-transparent"
+              src="https://img.icons8.com/?size=100&id=59878&format=png&color=000000"
+            />
           </button>
-            {/* Show search Results */}
-            {/* <div className='absolute p-2 w-96 h-96 overflow-y-auto top-36 border-2 '>
+          {/* Show search Results */}
+          {/* <div className='absolute p-2 w-96 h-96 overflow-y-auto top-36 border-2 '>
                 Search Results
             </div> */}
         </div>
 
-        <div className='sm:px-6 px-4 md:px-10 lg:px-14 xl:px-44 py-10'>
-            
-            <h2 className='text-2xl poppins-semibold text-center py-2 '>Select Category</h2>
-
-            <hr className='pb-6'/>
-          <div className='flex gap-2 flex-wrap pb-6 justify-center'>
-            {categories.map(category => (
+        {/* Categories */}
+        <div className="sm:px-6 px-4  py-10">
+          <div className="flex flex-wrap pb-6 gap-2 justify-center">
+            {categories.map((category) => (
               <button
                 key={category}
-                className={`border-2 px-3 py-1 rounded-sm ${activeTab === category ? 'bg-purple-500 text-white' : 'bg-white text-black'}`}
+                className={`border-[1px] px-3 py-2 text-start rounded-full ${
+                  activeTab === category
+                    ? "bg-purple-500 text-white "
+                    : "bg-white text-black dark:bg-black dark:text-white/70 "
+                }`}
                 onClick={() => onTabClick(category)}
               >
                 {category}
               </button>
             ))}
           </div>
+        </div>
 
-          <hr />
+        {/* Courses  */}
+
+        <div className="flex md:gap-10 gap-4 flex-wrap justify-center">
+          <Card />
+          <Card />
+          <Card />
+          <Card />
         </div>
       </div>
+      <Footer />
     </>
   );
 };

@@ -13,7 +13,7 @@ const Header = ()=>{
           {/* <img className='w-24 dark:fliter brightness-200 contrast-0' src={logo} /> */}
           <h1 className="text-2xl main-font-color  poppins-bold">
           {" "}
-          <span className="dark:text-white text-black">Skill</span>Hub </h1>
+          <span className="dark:text-white pl-2 xl:pl-0 text-black">Skill</span>Hub </h1>
         </Link>
       </div>
 
@@ -55,7 +55,7 @@ const Header = ()=>{
           </div>
           
 
-          <div className="block md:hidden">
+          <div className="block md:hidden pr-2">
             <button className="rounded bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

@@ -12,6 +12,7 @@ import { useState, useEffect } from "react";
 import { getCourses } from "@/utils/getLists";
 import CompanyLogo from "@/components/partials/companyLogo";
 import Card from "@/components/card";
+import Footer from "@/components/footer";
 
 function Home() {
   const [courses, setCourses] = useState("");
@@ -83,8 +84,8 @@ function Home() {
 
       {/* Popular Course Category */}
       <div className=" sm:px-6 px-4 md:px-10 lg:px-14 main-gradient flex flex-col xl:px-24 py-20  gap-10">
-        <div className="flex flex-col w-1/2 mx-auto gap-2">
-          <h1 className="text-white poppins-medium text-2xl text-center">
+        <div className="flex flex-col md:w-1/2 w-full mx-auto gap-2">
+          <h1 className="text-white poppins-medium text-3xl md:text-4xl pb-2 text-center">
             Our Popular Courses
           </h1>
           <p className="text-white text-center poppins-regular text-sm">
@@ -94,15 +95,15 @@ function Home() {
             for success in every step of your educational journey.
           </p>
         </div>
-              <div className="flex gap-10 flex-wrap justify-center">
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-              </div>
-        
-
+        <div className="flex md:gap-10 gap-4 flex-wrap justify-center">
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+        </div>
       </div>
+      {/* Footer */}
+      <Footer />
     </>
   );
 }
