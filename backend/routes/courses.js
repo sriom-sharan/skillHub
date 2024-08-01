@@ -14,7 +14,7 @@ const {
 router.get('/', getAllCourses);
 
 // Create Course
-router.post('/create-cousre',checkLoginMiddleware,createCourse)
+router.post('/create-course',checkLoginMiddleware,createCourse)
 
 // Get One course
 // router.get('/:courseId',(req,res,next)=>{

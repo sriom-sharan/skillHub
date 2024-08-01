@@ -1,7 +1,7 @@
 import axios from 'axios';
 
  const instance  = axios.create({
-  baseURL: 'https://api.themoviedb.org/3/',
+  baseURL: 'http://localhost:3000/',
   headers: {
     accept: 'application/json',
     Authorization: `Bearer ${localStorage. getItem("token")}`

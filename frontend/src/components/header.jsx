@@ -1,10 +1,15 @@
 import logo from '../assets/logo2.png'
 import { ModeToggle } from './partials/dark-light-button';
 import { Link } from 'react-router-dom';
+import { AuthContext } from './authContext';
+import { useContext } from 'react';
+import Profile from './avatar';
 
 const Header = ()=>{
+  const {isLooggedin,setisLooggedin} = useContext(AuthContext)
+  console.log(isLooggedin);
     return (
-   <header className="bg-transparent fixed bg-white dark:bg-black  top-0 left-0   w-full ">
+   <header className="bg-transparent fixed z-50 bg-white dark:bg-black  top-0 left-0   w-full ">
   <div className="mx-auto max-w-screen-xl">
     <div className="flex h-20 items-center justify-between">
       <div className="flex-1 md:flex md:items-center md:gap-12">
@@ -35,7 +40,7 @@ const Header = ()=>{
         </nav>
 
         <div className="flex items-center gap-4">
-          <div className="sm:flex sm:gap-2">
+          { !isLooggedin ? <div className="sm:flex sm:gap-2">
             <Link
               className="rounded-md  px-5 py-2.5 text-sm poppins-medium dark:text-white text-black "
               to="/login"
@@ -51,8 +56,11 @@ const Header = ()=>{
                 Sign Up
               </Link>
             </div>
-            <ModeToggle />
           </div>
+        : <Profile />
+      
+           }
+            <ModeToggle />
           
 
           <div className="block md:hidden pr-2">

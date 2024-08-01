@@ -1,9 +1,16 @@
 import Header from "../components/header";
-import React from "react";
+import React,{useEffect,useState} from "react";
 import Card from "@/components/card";
 import Footer from "@/components/footer";
+import  axios  from "../utils/axios";
+import { Link } from "react-router-dom";
+// import { asyncloadcourse,removecourse } from "../store/courseAction";
+// import { useDispatch, useSelector } from "react-redux";
+
 
 const Courses = () => {
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(false);
   const categories = [
     "Web Development",
     "Designing",
@@ -31,6 +38,33 @@ const Courses = () => {
     "Personal Development",
     "Health & Fitness",
   ];
+  const getCourses = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get('./courses');
+      console.log(data.courses)
+      setCourses(data.courses);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getCourses();
+  }, []);
+  // const info  = useSelector((state) =>state );
+  // const dispatch = useDispatch();
+  // console.log(info);
+
+  // useEffect(() => {
+  //   dispatch(asyncloadcourse('/courses'));
+  //   return () => {
+  //     dispatch(removecourse());
+  //   };
+  // }, [dispatch]);
+
 
   // Define state with initial value
   const [activeTab, setActiveTab] = React.useState(null);
@@ -115,6 +149,11 @@ const Courses = () => {
           <Card />
           <Card />
           <Card />
+          {
+            courses.map(course=>{
+              return <Link to={`/course/${course._id}`}><Card title={course.name} category={course.category} authorName={course.authorName} numOfVideos={course.videos.length} /></Link>
+            })
+          }
         </div>
       </div>
       <Footer />

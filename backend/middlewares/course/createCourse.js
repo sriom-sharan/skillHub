@@ -3,7 +3,7 @@ const zod = require("zod");
 const { getPlaylistDetail } = require("./getPlaylistDetail.js");
 
 const courseSchema = zod.object({
-  name: zod.string().min(3).max(30),
+  name: zod.string().min(3).max(60),
   description: zod.string(),
   category: zod.enum([
     "Web Development",
@@ -57,6 +57,7 @@ async function createCourse(req, res) {
       description,
       category,
       skills,
+      authorName:req.user.name,
       author: _id,
       youtubePlaylistId,
       videos,

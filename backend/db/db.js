@@ -80,7 +80,9 @@ const courseSchema = new Schema(
     },
     skills: { type: String,required:true },
     author: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    authorName:{type:String},
     enrolledUsers: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    totalEnrolled:{type:Number},
     youtubePlaylistId: { type: String,required:true,unique: true }, // Add this field
     videos: {type:Object, required:true},
   },

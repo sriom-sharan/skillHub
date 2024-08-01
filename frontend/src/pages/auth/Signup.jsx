@@ -1,21 +1,42 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import React from "react";
+import React,{useState} from "react";
 import { useFormik } from "formik";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { postData } from "@/utils/postData"; 
 const Signup = () => {
   // Note that we have to initialize ALL of fields with values. These
   // could come from props, but since we don’t want to prefill this form,
   // we just use an empty string. If we don’t do this, React will yell
   // at us.
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
+      name: "",
+      password: "",
       email: "",
     },
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: async (values) => {
+      setLoading(true);
+      setError(""); // Clear previous errors
+      try {
+        const response = await postData('auth/signup',values);
+        if (response.msg === "Account created successfully. OTP has been sent to email.") {
+          navigate('/verify-account')
+          setIsLoggedin(true);
+          // Optionally, redirect to a different page
+          // navigate('/dashboard'); // Example using react-router-dom
+        } else {
+          setError(response.msg || "Signup failed");
+        }
+      } catch (err) {
+        setError("Invalid Input Crediationals");
+        console.error("Login error:", err);
+      } finally {
+        setLoading(false);
+      }
     },
   });
   return (
@@ -30,28 +51,28 @@ const Signup = () => {
           <span className="text-lg  text-zinc-500">Signup</span>
         </h1>
         <hr className="mb-5" />
-        <label htmlFor="firstName" className="text-white">
-          First Name
+        <label htmlFor="name" className="text-white">
+          Name
         </label>
         <input
-          id="firstName"
-          name="firstName"
+          id="name"
+          name="name"
           type="text"
           className="py-1 rounded-sm mb-2 px-2 text-black"
           onChange={formik.handleChange}
-          value={formik.values.firstName}
+          value={formik.values.name}
         />
 
-        <label htmlFor="lastName" className="text-white">
-          Last Name
+        <label htmlFor="password" className="text-white">
+          Password
         </label>
         <input
-          id="lastName"
-          name="lastName"
-          type="text"
+          id="password"
+          name="password"
+          type="password"
           className="py-1 rounded-sm mb-2 px-2 text-black"
           onChange={formik.handleChange}
-          value={formik.values.lastName}
+          value={formik.values.password}
         />
 
         <label htmlFor="email" className="text-white">

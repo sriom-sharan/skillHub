@@ -9,7 +9,18 @@ async function enrollCourse(req,res,next){
     return res.status(400).json({ msg: "Invalid input credentials" });
   }
   try {
-    const course = await Course.findOneAndUpdate({_id:courseId},{$push:{enrolledUsers:_id}})
+    const course = await Course.findOneAndUpdate(
+      { _id: courseId },
+      [
+        {
+          $set: {
+            enrolledUsers: { $concatArrays: ['$enrolledUsers', [_id]] },
+            totalEnrolled: { $size: { $concatArrays: ['$enrolledUsers', [_id]] } }
+          }
+        }
+      ],
+      { new: true } // This option returns the modified document
+    );
     if (!course) {
         return res.status(400).json({ msg: "Course Id is incorrect" });
       }

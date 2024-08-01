@@ -64,7 +64,7 @@ async function signupMiddleware(req, res, next) {
       `Your OTP is ${otp} <p>**Do not share this with anyone.**</p>`
     );
 
-    res.json({ msg: "Account created successfully. OTP has been sent to email.", token });
+    return res.json({ msg: "Account created successfully. OTP has been sent to email.", token });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ msg: "Internal server error" });
