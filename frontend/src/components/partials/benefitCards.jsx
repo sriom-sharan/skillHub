@@ -1,11 +1,14 @@
 
-const BenefitCard = ({video,title,description}) =>{
+const BenefitCard = ({video,image,title,description}) =>{
     return(
         <div className="flex gap-6 py-2 rounded-xl border-[1px] px-2">
             <div className="flex justify-center items-center w-24 md:w-32">
-            <video width="100" height="100" loop  autoPlay >
+          { video && <video width="100" height="100" loop  autoPlay >
                <source src={video} type="video/mp4"/>
-            </video>
+            </video>}
+            {
+                image && <img className="w-10 h-10" src=""/>
+            }
             </div>
 
             <div className="my-auto">

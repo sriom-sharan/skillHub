@@ -9,7 +9,7 @@ const {
   const {getAllCourses} = require('../middlewares/course/getAllCourses.js')
   const {getPopularCourses} = require('../middlewares/course/getPopular.js')
   const {searchCourses} = require('../middlewares/course/searchCourses.js')
- 
+ const {getOneCourses} =  require('../middlewares/course/getOneCourse.js')
 // Get all Courses
 router.get('/', getAllCourses);
 
@@ -17,10 +17,7 @@ router.get('/', getAllCourses);
 router.post('/create-course',checkLoginMiddleware,createCourse)
 
 // Get One course
-// router.get('/:courseId',(req,res,next)=>{
-//     const courseId = req.params.courseId;
-//         res.send('One Courses '+courseId);
-// });
+router.get('/course-detail/:id',getOneCourses);
 
 // Enroll in Course
 router.put('/enroll',checkLoginMiddleware,enrollCourse);
