@@ -5,10 +5,18 @@ import { AuthContext } from "@/components/authContext";
 import { postData } from "@/utils/postData";
 
 const Login = () => {
-  const { isLoggedin, setisLooggedin } = useContext(AuthContext);
+  const { isLoggedin, setIsLoggedin } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  const handleLogin = () => {
+    // Assume login is successful
+    setIsLoggedin(true);
+    localStorage.setItem('isLoggedin', 'true');
+  };
+  
+
 
   const formik = useFormik({
     initialValues: {
@@ -29,7 +37,8 @@ const Login = () => {
           } catch (e) {
             console.error('Error storing data in localStorage:', e);
           }
-          setisLooggedin(true);
+          // setisLooggedin(true);
+          handleLogin();
           navigate('/courses')
         } else {
           setError(response.msg || "Login failed");

@@ -7,14 +7,21 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { GoDotFill } from "react-icons/go";
 import { IoExitOutline } from "react-icons/io5";
 import { AuthContext } from "./authContext";
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
-  const {isLooggedin,setisLooggedin} = useContext(AuthContext)
+  const {isLooggedin,setIsLoggedin} = useContext(AuthContext)
+  const handleLogout = () => {
+    setIsLoggedin(false);
+    localStorage.removeItem('isLoggedin');
+  };
+  
   return (
-    <DropdownMenu>
+    <DropdownMenu className="">
       <DropdownMenuTrigger>
         <Avatar>
           <AvatarImage src="https://github.com/shadcn.png" />
@@ -22,15 +29,16 @@ const Profile = () => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>Profile</DropdownMenuLabel>
+        <DropdownMenuLabel >Profile</DropdownMenuLabel>
         <DropdownMenuItem>My Courses</DropdownMenuItem>
+        <DropdownMenuItem ><Link to={'/create-course'} className="flex items-center gap-1 poppins-regular" > Create Course <GoDotFill className="text-green-600 w-3" /></Link></DropdownMenuItem>
         {/* <DropdownMenuItem>Billing</DropdownMenuItem>
         <DropdownMenuItem>Team</DropdownMenuItem> */}
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={()=>setisLooggedin(false)}> <IoExitOutline style={{
+        <DropdownMenuItem onClick={()=>handleLogout()}> <IoExitOutline style={{
             background:'transparent',
-            color:'purple',
-            marginRight:'2px'
+            color:'red',
+            marginRight:'4px'
         }} /> Log Out</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

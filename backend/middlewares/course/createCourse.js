@@ -34,6 +34,8 @@ const courseSchema = zod.object({
   ]),
   youtubePlaylistId: zod.string(),
   skills: zod.string(),
+  language:zod.enum(["English","Hindi","Hinglish"]),
+  prerequisite:zod.string().optional()
 });
 
 async function createCourse(req, res) {
@@ -43,7 +45,7 @@ async function createCourse(req, res) {
   if (!response.success) {
     return res.status(400).json({ msg: "Invalid input credentials" });
   }
-  const { name, description, category, skills, youtubePlaylistId } = body;
+  const { name, description, category, skills, youtubePlaylistId,language,prerequisite } = body;
 
   try {
     const playlistId = await Course.findOne({ youtubePlaylistId });
@@ -51,6 +53,7 @@ async function createCourse(req, res) {
       return res.status(400).json({ msg: "Playlist_Id already exist" });
     }
     const videoDetails = await getPlaylistDetail(youtubePlaylistId);
+    if(!videoDetails) return res.status(400).json({msg:"Playlist Not Found"})
     const videos = videoDetails.map((data) => data.snippet);
     const course = await Course.create({
       name,
@@ -61,6 +64,8 @@ async function createCourse(req, res) {
       author: _id,
       youtubePlaylistId,
       videos,
+      language,
+      prerequisite
     });
     await User.findOneAndUpdate(_id, { $push: { createdCourses: course._id } });
     const enroll = await Enrollment.create({

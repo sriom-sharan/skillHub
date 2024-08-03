@@ -47,6 +47,7 @@ const courseSchema = new Schema(
     isPaid: { type: Boolean, default: false },
     price: { type: Number, required: function() { return this.isPaid; } },
     language:{type:String ,enum:['Hindi','English','Hinglish']},
+    prerequisite : { type: String },
     category: {
       type: String,
       enum: [

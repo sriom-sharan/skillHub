@@ -1,13 +1,9 @@
 import Home from "./pages/Home";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Routes,
   Route,
-  Link,
   useNavigate,
-  useLocation,
-  Navigate,
-  Outlet,
 } from "react-router-dom";
 import { ThemeProvider } from "@/components/theme-provider";
 import Login from "./pages/auth/Login";
@@ -16,27 +12,52 @@ import Courses from "./pages/Courses";
 import { AuthContext } from "./components/authContext";
 import CourseDetail from "./pages/CourseDetail";
 import CreateCourse from "./pages/create-course";
+import Error from "./pages/Error";
 
 function App() {
-  const [isLooggedin, setisLooggedin] = useState(false);
-  return (
-    <>
-        {/* <Home /> */}
-        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-          <AuthContext.Provider value = {{isLooggedin,setisLooggedin}}>
+  const [isLoggedin, setIsLoggedin] = useState(false);
 
+  // Check localStorage for authentication state on initial load
+  // useEffect(() => {
+  //   const storedLoginState = localStorage.getItem('isLoggedin');
+  //   if (storedLoginState) {
+  //     setIsLoggedin(JSON.parse(storedLoginState));
+  //   }
+  // }, []);
+
+  useEffect(() => {
+    const storedLoginState = localStorage.getItem('isLoggedin');
+    console.log("Initial localStorage value:", storedLoginState);
+  
+    try {
+      const parsedLoginState = JSON.parse(storedLoginState);
+      if (typeof parsedLoginState === 'boolean') {
+        setIsLoggedin(parsedLoginState);
+      } else {
+        console.error("Invalid boolean value in localStorage");
+      }
+    } catch (e) {
+      console.error("Failed to parse localStorage value:", e);
+    }
+  }, []);
+  
+
+  // Update localStorage when authentication state changes
+
+  return (
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <AuthContext.Provider value={{ isLoggedin, setIsLoggedin }}>
         <Routes>
           <Route path="/" element={<Home />} />   
           <Route path='/login' element={<Login />} />
-          <Route path='/signup' element={<Signup/>} />
-          <Route path='/courses' element={<Courses/>} />
-          <Route path='/course/:courseId' element={<CourseDetail/>} />
-          <Route path='/create-course' element={<CreateCourse/>} />
+          <Route path='/signup' element={<Signup />} />
+          <Route path='/courses' element={<Courses />} />
+          <Route path='/courses/:courseId' element={<CourseDetail />} />
+          <Route path='/create-course' element={isLoggedin? <CreateCourse />:<Login/>} />
+          <Route path='/*' element={<Error />} />
         </Routes>
-       
-          </AuthContext.Provider>
+      </AuthContext.Provider>
     </ThemeProvider>
-    </>
   );
 }
 

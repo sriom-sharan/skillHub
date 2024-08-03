@@ -15,7 +15,7 @@ import  axios  from "../utils/axios";
 import { asyncloadcourse,removecourse } from "../store/courseAction";
 import BenefitCard from "@/components/partials/benefitCards";
 import LectureCard from "@/components/partials/lectureCard";
-
+import Error from "./Error";
 const CourseDetail = () => {
 
 
@@ -55,7 +55,7 @@ const CourseDetail = () => {
   // }, [courseId]);
   // console.log(course.videos[0].thumbnails.standard.ur);
   
-  return (
+  return course && dispatch?(
     <>
       <Header />
       <Breadcrumb className="mt-32 mb-12  md:px-10 lg:px-14 xl:px-24 ">
@@ -112,7 +112,7 @@ const CourseDetail = () => {
 
       </div>
     </>
-  );
+  ):<Error/>;
 };
 
 export default CourseDetail;

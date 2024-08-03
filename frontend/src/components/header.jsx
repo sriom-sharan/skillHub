@@ -6,8 +6,7 @@ import { useContext } from 'react';
 import Profile from './avatar';
 
 const Header = ()=>{
-  const {isLooggedin,setisLooggedin} = useContext(AuthContext)
-  console.log(isLooggedin);
+  const {isLoggedin,} = useContext(AuthContext)
     return (
    <header className="bg-transparent fixed z-50 bg-white dark:bg-black  top-0 left-0   w-full ">
   <div className="mx-auto max-w-screen-xl">
@@ -40,7 +39,7 @@ const Header = ()=>{
         </nav>
 
         <div className="flex items-center gap-4">
-          { !isLooggedin ? <div className="sm:flex sm:gap-2">
+          { !isLoggedin ? <div className="sm:flex sm:gap-2">
             <Link
               className="rounded-md  px-5 py-2.5 text-sm poppins-medium dark:text-white text-black "
               to="/login"

@@ -4,6 +4,7 @@ import Card from "@/components/card";
 import Footer from "@/components/footer";
 import  axios  from "../utils/axios";
 import { Link } from "react-router-dom";
+import LectureCard from "@/components/cardShimmer";
 // import { asyncloadcourse,removecourse } from "../store/courseAction";
 // import { useDispatch, useSelector } from "react-redux";
 
@@ -144,17 +145,13 @@ const Courses = () => {
 
         {/* Courses  */}
 
-        <div className="flex md:gap-10 gap-4 flex-wrap justify-center">
-          <Card />
-          <Card />
-          <Card />
-          <Card />
+      { !loading? <div className="flex md:gap-10 gap-4 flex-wrap justify-center">
           {
             courses.map(course=>{
-              return <Link to={`/course/${course._id}`}><Card title={course.name} category={course.category} authorName={course.authorName} numOfVideos={course.videos.length} /></Link>
+              return <Link to={`/courses/${course._id}`}><Card title={course.name} category={course.category} authorName={course.authorName} numOfVideos={course.videos.length} /></Link>
             })
           }
-        </div>
+        </div>:<LectureCard/>}
       </div>
       <Footer />
     </>
