@@ -1,6 +1,6 @@
 const Card = ({image,title,category,authorName,numOfEnrollment,rating,numOfVideos}) =>{
     return(
-        <div className="flex flex-col gap-2 py-2 dark:bg-black bg-white rounded-xl border-[1px] border-gray-200 shadow-md dark:border-gray-700 md:w-64 w-72 px-2">
+        <div key={authorName} className="flex flex-col gap-2 py-2 dark:bg-black bg-white rounded-xl border-[1px] border-gray-200 shadow-md dark:border-gray-700 md:w-64 w-72 px-2">
             <div className="flex justify-center items-center ">
                 <img src="https://i.ytimg.com/vi/vhq9VhN4x8Y/maxresdefault.jpg " className="rounded-lg" />
             </div>

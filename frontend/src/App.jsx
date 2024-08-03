@@ -13,6 +13,7 @@ import { AuthContext } from "./components/authContext";
 import CourseDetail from "./pages/CourseDetail";
 import CreateCourse from "./pages/create-course";
 import Error from "./pages/Error";
+import UserProfile from "./pages/UserProfile";
 
 function App() {
   const [isLoggedin, setIsLoggedin] = useState(false);
@@ -52,6 +53,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/courses' element={<Courses />} />
+          <Route path='/profile' element={<UserProfile />} />
           <Route path='/courses/:courseId' element={<CourseDetail />} />
           <Route path='/create-course' element={isLoggedin? <CreateCourse />:<Login/>} />
           <Route path='/*' element={<Error />} />

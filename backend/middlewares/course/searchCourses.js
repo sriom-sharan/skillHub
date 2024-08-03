@@ -3,7 +3,8 @@ const { Course } = require("../../db/db.js");
 async function searchCourses(req, res) {
     try {
         const searchString = req.body.searchString; // Ensure the search string is properly extracted from the request body
-
+        console.log(req);
+        
         if (!searchString || typeof searchString !== 'string') {
             return res.status(400).json({ msg: "Invalid search string" }); // Handle invalid or missing search string
         }

@@ -1,8 +1,8 @@
-import React, { useEffect,useState } from "react";
-import { useParams,Link } from "react-router-dom";
+import React, { useEffect, useState, useContext } from "react";
+import { useParams, Link,useNavigate } from "react-router-dom";
 import Header from "@/components/header";
-import { useSelector, useDispatch } from 'react-redux'
-import {courseSlice} from '../store/courseSlice'
+import { useSelector, useDispatch } from "react-redux";
+import { courseSlice } from "../store/courseSlice";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -11,51 +11,48 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import  axios  from "../utils/axios";
-import { asyncloadcourse,removecourse } from "../store/courseAction";
+import axios from "../utils/axios";
+import { asyncloadcourse, removecourse } from "../store/courseAction";
 import BenefitCard from "@/components/partials/benefitCards";
 import LectureCard from "@/components/partials/lectureCard";
+import { AuthContext } from "@/components/authContext";
 import Error from "./Error";
+import { putData } from "@/utils/postData";
+
+
 const CourseDetail = () => {
-
-
+  const { isLoggedin } = useContext(AuthContext);
+  const [show, setShow] = useState(3);
   const { courseId } = useParams();
-  // const [course, setcourse] = useState({})
-  console.log(courseId);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
 
-  const course = useSelector((state) => state.course.info)
+
+
+  const course = useSelector((state) => state.course.info);
   const dispatch = useDispatch();
 
-  console.log("this is course",course);
+  async function enrollInCourse(){
+    const response = await putData('courses/enroll',{courseId});
+    console.log( response.msg);
+    if (response.msg === "Enrolled in course successfully"){
+      navigate('/profile')
+    } else {
+      setError(response.msg || "Login failed");
+    }
+  }
+
   useEffect(() => {
     dispatch(asyncloadcourse(courseId));
-    // console.log("this is ingo",info);
-    
-    // setcourse(info.course.info.course)
+   
     return () => {
       dispatch(removecourse());
     };
-  }, [dispatch,courseId]);
+  }, [dispatch, courseId]);
 
-  // async function getCourse(id) {
-  //   try {
-  //     const { data } = await axios.get(`courses/course-detail/${id}`);
-  //     console.log(data);
-  //     setcourse(data.course); // Assuming 'data.course' contains the course data
-  //   } catch (error) {
-  //     console.error("Error fetching course:", error);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   if (courseId) {
-  //     getCourse(courseId);
-  //   }
-  // }, [courseId]);
-  // console.log(course.videos[0].thumbnails.standard.ur);
-  
-  return course && dispatch?(
+  return course && dispatch ? (
     <>
       <Header />
       <Breadcrumb className="mt-32 mb-12  md:px-10 lg:px-14 xl:px-24 ">
@@ -75,44 +72,107 @@ const CourseDetail = () => {
       </Breadcrumb>
 
       <div className="flex gap-4 poppins-regular flex-col md:flex-row mt-6 md:px-10 lg:px-14 xl:px-24 ">
-      {  course && <div className=" w-[70%]">
-            <img className=" shadow-2xl rounded-lg shadow-accent" src={course.thumbnail}/>
+        {course && (
+          <div className=" w-[70%]">
+            <img
+              className=" shadow-2xl rounded-lg shadow-accent"
+              src={course.thumbnail}
+            />
             <div className="flex flex-col py-4">
-          <h1 className="poppins-bold md:text-2xl sm:text-3xl text-4xl   leading-[1.25]">
-            {course.name}
-
-          </h1>
-        <p className="dark:text-zinc-400 text-sm text-black/70">Course By <span className="text-black poppins-semibold">{course.authorName}</span> </p>
+              <h1 className="poppins-bold md:text-2xl sm:text-3xl text-4xl   leading-[1.25]">
+                {course.name}
+              </h1>
+              <p className="dark:text-zinc-400 text-sm text-black/70">
+                Course By{" "}
+                <span className="text-black dark:text-white poppins-semibold">
+                  {course.authorName}
+                </span>{" "}
+              </p>
             </div>
-        <p className="dark:text-zinc-400 text-sm text-black/70">{course.description}</p>
-        </div>}
-       
-      {  course && <div className="border-[1px] w-[30%] p-4">
-        <div className="pb-4">
 
-        <h4 className="pb-2 poppins-semibold">About the Course</h4>
-        {/* <div className="flex">
-        <img className="w-10 rounded-full h-10" src=""/>
-        <p className=" text-sm poppins-medium">{course.instructorName}</p>
-        </div> */}
+            {/* <p className="dark:text-zinc-400 text-sm text-black/70">{course.description}</p> */}
           </div>
-        
+        )}
 
-        <p className="dark:text-zinc-400 text-sm pb-4  text-justify text-black/70">{course.description}</p>
+        {course && (
+          <div className="border-[1px] w-[30%] p-4">
+            <div className="pb-2">
+              <h4 className=" text-2xl poppins-semibold">About the Course</h4>
+            </div>
 
-        <div className="flex-col justify-start ">
-        {
-          course.lectures.map((data,i)=>{
-            return <Link to={`/`}><LectureCard title={data.title} index={i} image={data.thumbnails.default.url} description={data.description} /></Link>
-          })
-        }
+            {/* Course Description */}
+            <p className="dark:text-zinc-400 text-sm pb-4  text-justify text-black/70">
+              {course.description}
+            </p>
+            <hr className="my-2" />
+
+            <p className="dark:text-zinc-400  text-black/70 py-2">
+              <span className="text-xl text-black">Language</span> :{" "}
+              {course.language}
+            </p>
+
+            <hr className="my-2" />
+
+            <p className="text-xl">Skills you will gain :</p>
+            <ol className="list-disc pl-4 pt-2">
+              {course.skills.split(",").map((data) => {
+                return (
+                  <li className="poppins-regular pl-2 text-sm" key={data}>
+                    {data}
+                  </li>
+                );
+              })}
+            </ol>
+
+            <div className=" justify-center flex  mt-8">
+              <button
+                onClick={isLoggedin ? enrollInCourse:()=>{navigate('/login')}}
+                className="border[1px] main-gradient  text-center p-2 px-4 rounded-sm text-white w-96"
+              >
+                Enroll Now
+              </button>
+            </div>
+          </div>
+        )}
+       
+      </div>
+      <hr className="my-2 mx-24"/>
+      <div className="w-[100%] h-auto md:px-10 lg:px-14 xl:px-24 mt-20">
+        <h1 className="text-3xl text-center my-2 poppins-regular">Lectures</h1>
+        <div className="flex flex-wrap gap-4 justify-center  ">
+          {course.lectures.slice(0, show).map((data, i) => {
+            return (
+              <Link to={`/`} className="transition-all delay-1000">
+                <LectureCard
+                  title={data.title}
+                  index={i}
+                  image={data.thumbnails.default.url}
+                  description={data.description}
+                />
+              </Link>
+            );
+          })}
         </div>
-
-        </div>}
-
+          {show <= course.lectures.length ? (
+            <button
+              onClick={() => setShow((prev) => prev + 10)}
+              className="border-[1px] mt-8 p-1 underline bg-purple-200 shadow-background rounded-full p w-full"
+            >
+              Show More..
+            </button>
+          ) : (
+            <button
+              onClick={() => setShow(3)}
+              className="border-[1px] my-2 p-1 underline bg-purple-200 shadow-background rounded-full p w-full"
+            >
+              Collapse All
+            </button>
+          )}
       </div>
     </>
-  ):<Error/>;
+  ) : (
+    <Error />
+  );
 };
 
 export default CourseDetail;

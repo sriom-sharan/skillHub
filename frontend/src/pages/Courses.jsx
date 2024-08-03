@@ -2,16 +2,18 @@ import Header from "../components/header";
 import React,{useEffect,useState} from "react";
 import Card from "@/components/card";
 import Footer from "@/components/footer";
-import  axios  from "../utils/axios";
+import axios from "../utils/axios";
 import { Link } from "react-router-dom";
 import LectureCard from "@/components/cardShimmer";
-// import { asyncloadcourse,removecourse } from "../store/courseAction";
-// import { useDispatch, useSelector } from "react-redux";
-
 
 const Courses = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchList,setSearchList] = useState([])
+
+
+
+
   const categories = [
     "Web Development",
     "Designing",
@@ -52,19 +54,37 @@ const Courses = () => {
     }
   };
 
+  const handleSearch = async (searchString) => {
+    // Check the type and value of searchString
+    console.log('Type of searchString:', typeof searchString);
+    console.log('Value of searchString:', searchString);
+  
+    // Ensure searchString is a string
+    if (typeof searchString !== 'string' || searchString.trim() === '') {
+      console.error('Invalid search string');
+      return;
+    }
+  
+    try {
+      const { data } = await axios.post('courses/search', {searchString:searchString} );
+      console.log('Response data:', data);
+      setSearchList(data.courses); // Update the search list with results
+    } catch (error) {
+      if (error.response) {
+        console.error('Response error:', error.response.data);
+      } else if (error.request) {
+        console.error('Request error:', error.request);
+      } else {
+        console.error('Error:', error.message);
+      }
+    }
+  };
+  
+
+
   useEffect(() => {
     getCourses();
   }, []);
-  // const info  = useSelector((state) =>state );
-  // const dispatch = useDispatch();
-  // console.log(info);
-
-  // useEffect(() => {
-  //   dispatch(asyncloadcourse('/courses'));
-  //   return () => {
-  //     dispatch(removecourse());
-  //   };
-  // }, [dispatch]);
 
 
   // Define state with initial value
@@ -85,6 +105,7 @@ const Courses = () => {
   // Handle search button click
   const onSearchClick = () => {
     console.log("Search term:", searchTerm);
+    handleSearch(searchTerm)
     // Add search functionality here
   };
 
@@ -118,10 +139,10 @@ const Courses = () => {
               src="https://img.icons8.com/?size=100&id=59878&format=png&color=000000"
             />
           </button>
-          {/* Show search Results */}
-          {/* <div className='absolute p-2 w-96 h-96 overflow-y-auto top-36 border-2 '>
-                Search Results
-            </div> */}
+          {/* Show search Results  */}
+          { searchList.length>1 && <div className='absolute bg-white p-2 pb-4 w-[30rem] overflow-y-auto top-[26rem] border-2 '>
+                {searchList.map((data,i)=>{return <p key={data._id} className="py-2 border-b-2">{data.name}</p>})}
+            </div>}
         </div>
 
         {/* Categories */}

@@ -31,6 +31,6 @@ router.delete('/:courseId',(req,res,next)=>{
 router.get('/popular',getPopularCourses);
 
 // Get Search Result
-router.get('/search',searchCourses);
+router.post('/search',searchCourses);
 
 module.exports = router

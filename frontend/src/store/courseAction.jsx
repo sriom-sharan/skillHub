@@ -24,7 +24,9 @@ export const asyncloadcourse = (id) => async (dispatch) => {
       thumbnail: course.videos[0].thumbnails.maxres.url,
       youtubePlaylistId: course.youtubePlaylistId ,// Added youtubePlaylistId
       instructorName:course.videos[0].videoOwnerChannelTitle,
-      lectures:course.videos
+      lectures:course.videos,
+      language:course.language,
+      prerequisite:course.prerequisite
     };
     dispatch(loadcourse(allDetails));
     console.table(allDetails);
