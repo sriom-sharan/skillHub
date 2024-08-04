@@ -22,7 +22,11 @@ async function getPopularCourses(req,res){
             category:'$courseDetails.category',
             videos:'$courseDetails.videos',
             userCount: 1
-          }}
+          },
+          
+        },
+        {$sort:{userCount:-1}}
+
         ]);
         
         console.log('Courses with user counts:', results);

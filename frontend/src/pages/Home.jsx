@@ -7,6 +7,7 @@ import video from "../assets/video.mp4";
 import graduationIcon from "../assets/graduation.mp4";
 import teacher from "../assets/teacher.mp4";
 import online from "../assets/online-course.mp4";
+import axios from "../utils/axios";
 
 import { useState, useEffect } from "react";
 import { getCourses } from "@/utils/getLists";
@@ -16,8 +17,24 @@ import Footer from "@/components/footer";
 
 function Home() {
   const [courses, setCourses] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const getPopularCourses = async () => {
+    try {
+      setLoading(true);
+      const {data} = await axios.get('./courses/popular');
+      console.log(data)
+      setCourses(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   useEffect(() => {
+    getPopularCourses();
     // const data = getCourses('https://skillhub-8nsp.onrender.com/courses');
     // console.log(data);
     // setCourses(data)
@@ -31,7 +48,7 @@ function Home() {
       </section>
 
       {/* Companies Logo */}
-      <div className="main-gradient w-full flex gap-4 sm:gap-10 lg:gap-14 justify-center py-4 items-center ">
+      <div className="main-gradient w-full flex gap-4 sm:gap-10 md:px-10 lg:px-20 xl:px-32 lg:gap-14 justify-between py-4 items-center ">
         <CompanyLogo />
       </div>
 
