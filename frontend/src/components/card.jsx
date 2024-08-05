@@ -13,7 +13,7 @@ const Card = ({image,title,category,authorName,numOfEnrollment,rating,numOfVideo
                 <h1 className="poppins-semibold text-sm md:text-base pr-4  line-clamp-1"> {title|| 'Learn Web Development'}</h1>                
                 <div className="flex gap-6 text-[10px] pb-2 poppins-light  px-1 pt-3">
                     <span className="  ">{numOfVideos||'25'} lectures</span>
-                    <span className="">186 students</span>
+                    <span className="">{numOfEnrollment || 86} students</span>
                 </div>
                 
                 <hr />

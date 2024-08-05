@@ -22,8 +22,8 @@ function Home() {
   const getPopularCourses = async () => {
     try {
       setLoading(true);
-      const {data} = await axios.get('./courses/popular');
-      console.log(data)
+      const { data } = await axios.get("./courses/popular");
+      console.log(data);
       setCourses(data);
     } catch (error) {
       console.log(error);
@@ -31,7 +31,6 @@ function Home() {
       setLoading(false);
     }
   };
-
 
   useEffect(() => {
     getPopularCourses();
@@ -113,10 +112,10 @@ function Home() {
           </p>
         </div>
         <div className="flex md:gap-10 gap-4 flex-wrap justify-center">
-          <Card />
-          <Card />
-          <Card />
-          <Card />
+         <Card title={courses[0].courseName} numOfEnrollment={courses[0].userCount} category={courses[0].category} numOfVideos={courses[0].videos.length} authorName={courses[0].authorName} />
+         <Card title={courses[1].courseName} numOfEnrollment={courses[1].userCount} category={courses[1].category} numOfVideos={courses[1].videos.length} authorName={courses[1].authorName} /> 
+         <Card title={courses[2].courseName} numOfEnrollment={courses[2].userCount} category={courses[2].category} numOfVideos={courses[2].videos.length} authorName={courses[2].authorName} /> 
+         <Card title={courses[3].courseName} numOfEnrollment={courses[3].userCount} category={courses[3].category} numOfVideos={courses[3].videos.length} authorName={courses[3].authorName} /> 
         </div>
       </div>
       {/* Footer */}

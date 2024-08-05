@@ -1,19 +1,22 @@
 import Header from "../components/header";
-import React,{useEffect,useState} from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Card from "@/components/card";
 import Footer from "@/components/footer";
 import axios from "../utils/axios";
 import { Link } from "react-router-dom";
 import LectureCard from "@/components/cardShimmer";
+import debounce from 'lodash/debounce'; // Import debounce function from lodash
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; 
 
 const Courses = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [searchList,setSearchList] = useState([])
-
-
-
-
+  const [searchList, setSearchList] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredCourses, setFilteredCourses] = useState([]);
+  const [activeTab, setActiveTab] = useState(null);
+  const notify = () => toast("Sorry no courses available in this category.");
   const categories = [
     "Web Development",
     "Designing",
@@ -41,11 +44,11 @@ const Courses = () => {
     "Personal Development",
     "Health & Fitness",
   ];
+
   const getCourses = async () => {
     try {
       setLoading(true);
       const { data } = await axios.get('./courses');
-      console.log(data.courses)
       setCourses(data.courses);
     } catch (error) {
       console.log(error);
@@ -54,60 +57,61 @@ const Courses = () => {
     }
   };
 
-  const handleSearch = async (searchString) => {
-    // Check the type and value of searchString
-    console.log('Type of searchString:', typeof searchString);
-    console.log('Value of searchString:', searchString);
-  
-    // Ensure searchString is a string
-    if (typeof searchString !== 'string' || searchString.trim() === '') {
-      console.error('Invalid search string');
+  // Define debounced search function
+  const debouncedHandleSearch = useCallback(
+    debounce(async (searchString) => {
+      if (typeof searchString !== 'string' || searchString.trim() === '') {
+        console.error('Invalid search string');
+        setSearchList([])
+        return;
+      }
+      try {
+        const { data } = await axios.post('courses/search', { searchString });
+        setSearchList(data.courses);
+      } catch (error) {
+        if (error.response) {
+          console.error('Response error:', error.response.data);
+        } else if (error.request) {
+          console.error('Request error:', error.request);
+        } else {
+          console.error('Error:', error.message);
+        }
+      }
+    }, 300), // Adjust debounce delay (in milliseconds) as needed
+    []
+  );
+
+  // Handle search input change
+  const onSearchChange = (e) => {
+    const newSearchTerm = e.target.value;
+    setSearchTerm(newSearchTerm);
+    debouncedHandleSearch(newSearchTerm);
+  };
+
+  const onTabClick = (category) => {
+
+    if(category === activeTab){
+      setActiveTab('')
       return;
     }
-  
-    try {
-      const { data } = await axios.post('courses/search', {searchString:searchString} );
-      console.log('Response data:', data);
-      setSearchList(data.courses); // Update the search list with results
-    } catch (error) {
-      if (error.response) {
-        console.error('Response error:', error.response.data);
-      } else if (error.request) {
-        console.error('Request error:', error.request);
-      } else {
-        console.error('Error:', error.message);
-      }
-    }
+    setActiveTab(category);
   };
-  
+
+  useEffect(() => {
+    if (activeTab) {
+      const filteredData = courses.filter(course => course.category === activeTab);
+      console.log(filteredData);
+      
+      setFilteredCourses(filteredData);
+    } else {
+      setFilteredCourses(courses); // Reset to all courses if no active tab
+    }
+  }, [activeTab, courses]);
 
 
   useEffect(() => {
     getCourses();
   }, []);
-
-
-  // Define state with initial value
-  const [activeTab, setActiveTab] = React.useState(null);
-  const [searchTerm, setSearchTerm] = React.useState("");
-
-  // Handle tab click
-  const onTabClick = (category) => {
-    setActiveTab(category);
-    console.log("Selected category:", category);
-  };
-
-  // Handle search input change
-  const onSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
-
-  // Handle search button click
-  const onSearchClick = () => {
-    console.log("Search term:", searchTerm);
-    handleSearch(searchTerm)
-    // Add search functionality here
-  };
 
   return (
     <>
@@ -115,14 +119,13 @@ const Courses = () => {
       <h1 className="poppins-regular md:text-6xl sm:text-5xl sm:w-[75%] text-5xl w-[95%] leading-[1.25] text-center md:w-[40rem] mx-auto mt-32">
         Discover the top courses & playlists
       </h1>
-      <p className="text-sm md:w-[40rem] w-[90%]   mb-12 mt-6 mx-auto text-center">
+      <p className="text-sm md:w-[40rem] w-[90%] mb-12 mt-6 mx-auto text-center">
         Explore a transformative approach to skill development on our online
         learning platform. Uncover a new realm of learning experiences and
         elevate your expertise in unique ways.
       </p>
-      <div className=" md:px-10 lg:px-14 xl:px-24 ">
-        {/* Search */}
-        <div className="mx-auto flex  justify-center mt-10">
+      <div className="md:px-10 lg:px-14 xl:px-24 ">
+        <div className="mx-auto flex justify-center mt-10">
           <input
             placeholder="Search 10k+ courses.."
             type="text"
@@ -131,22 +134,25 @@ const Courses = () => {
             onChange={onSearchChange}
           />
           <button
-            className="border-[1px] px-4 rounded-r-full shadow-purple-500/80  shadow-sm text-white py-1"
-            onClick={onSearchClick}
+            className="border-[1px] px-4 rounded-r-full shadow-purple-500/80 shadow-sm text-white py-1"
+            onClick={() => debouncedHandleSearch(searchTerm)}
           >
             <img
-              className="w-9 p-1  dark:contrast-0 bg-transparent"
+              className="w-9 p-1 dark:contrast-0 bg-transparent"
               src="https://img.icons8.com/?size=100&id=59878&format=png&color=000000"
             />
           </button>
-          {/* Show search Results  */}
-          { searchList.length>1 && <div className='absolute bg-white p-2 pb-4 w-[30rem] overflow-y-auto top-[26rem] border-2 '>
-                {searchList.map((data,i)=>{return <p key={data._id} className="py-2 border-b-2">{data.name}</p>})}
-            </div>}
+          {searchList.length>0 && (
+            <div className='absolute bg-gray-200 shadow-purple-500/80 shadow-sm px-2 pt-2 w-[30rem] overflow-y-auto top-[26rem] border-2 '>
+              {searchList.map((data) => (
+                <Link key={data._id} to={`/courses/${data._id}`}>
+                  <p className="py-2 border-b-2 border-gray-300">🔗 {data.name}</p>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
-
-        {/* Categories */}
-        <div className="sm:px-6 px-4  py-10">
+        <div className="sm:px-6 px-4 py-10">
           <div className="flex flex-wrap pb-6 gap-2 justify-center">
             {categories.map((category) => (
               <button
@@ -163,20 +169,29 @@ const Courses = () => {
             ))}
           </div>
         </div>
+        {filteredCourses.length>0 ? (
+          <div className="flex md:gap-10 gap-4 flex-wrap justify-center">
+            {  filteredCourses.map((course) => (
+              <Link key={course._id} to={`/courses/${course._id}`}>
+                <Card title={course.name} category={course.category} authorName={course.authorName} numOfVideos={course.videos.length} />
+              </Link>
+            ))}
 
-        {/* Courses  */}
+          </div>
+        ) :
+          <p className="flex text-center md:gap-10 gap-4 flex-wrap justify-center text-2xl poppins-regular py-4  ">⚠️ Sorry No Course Available in this category right now.</p>
+        }
+    
+    {loading && <LectureCard />  }
+        
 
-      { !loading? <div className="flex md:gap-10 gap-4 flex-wrap justify-center">
-          {
-            courses.map(course=>{
-              return <Link to={`/courses/${course._id}`}><Card title={course.name} category={course.category} authorName={course.authorName} numOfVideos={course.videos.length} /></Link>
-            })
-          }
-        </div>:<LectureCard/>}
       </div>
+
       <Footer />
     </>
   );
 };
 
 export default Courses;
+
+

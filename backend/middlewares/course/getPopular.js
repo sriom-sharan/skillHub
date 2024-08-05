@@ -21,6 +21,7 @@ async function getPopularCourses(req,res){
             courseName: '$courseDetails.name',
             category:'$courseDetails.category',
             videos:'$courseDetails.videos',
+            authorName:'$courseDetails.authorName',
             userCount: 1
           },
           
