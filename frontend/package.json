@@ -32,7 +32,8 @@
     "react-tabs-scrollable": "^2.0.6",
     "react-toastify": "^10.0.5",
     "tailwind-merge": "^2.4.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "uvcanvas": "^0.2.1"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

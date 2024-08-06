@@ -115,7 +115,7 @@ const Courses = () => {
 
   return (
     <>
-      <Header />
+      <Header bg="bg-white"  />
       <h1 className="poppins-regular md:text-6xl sm:text-5xl sm:w-[75%] text-5xl w-[95%] leading-[1.25] text-center md:w-[40rem] mx-auto mt-32">
         Discover the top courses & playlists
       </h1>
@@ -170,7 +170,7 @@ const Courses = () => {
           </div>
         </div>
         {filteredCourses.length>0 ? (
-          <div className="flex md:gap-10 gap-4 flex-wrap justify-center">
+          <div className="flex md:gap-10 gap-4 mb-10 flex-wrap justify-center">
             {  filteredCourses.map((course) => (
               <Link key={course._id} to={`/courses/${course._id}`}>
                 <Card title={course.name} category={course.category} authorName={course.authorName} numOfVideos={course.videos.length} />

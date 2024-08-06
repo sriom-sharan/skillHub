@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useParams, Link,useNavigate } from "react-router-dom";
+import { useParams, Link,useNavigate,Outlet } from "react-router-dom";
 import Header from "@/components/header";
 import { useSelector, useDispatch } from "react-redux";
 import { courseSlice } from "../store/courseSlice";
@@ -18,6 +18,8 @@ import LectureCard from "@/components/partials/lectureCard";
 import { AuthContext } from "@/components/authContext";
 import Error from "./Error";
 import { putData } from "@/utils/postData";
+import Footer from "@/components/footer";
+import CourseDShimmer from "@/components/courseDShimmer";
 
 
 const CourseDetail = () => {
@@ -54,7 +56,7 @@ const CourseDetail = () => {
 
   return course && dispatch ? (
     <>
-      <Header />
+      <Header bg="bg-white" />
       <Breadcrumb className="mt-32 mb-12  md:px-10 lg:px-14 xl:px-24 ">
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -70,6 +72,8 @@ const CourseDetail = () => {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
+
+      <Outlet/>
 
       <div className="flex gap-4 poppins-regular flex-col md:flex-row mt-6 md:px-10 lg:px-14 xl:px-24 ">
         {course && (
@@ -137,12 +141,12 @@ const CourseDetail = () => {
        
       </div>
       <hr className="my-2 mx-24"/>
-      <div className="w-[100%] h-auto md:px-10 lg:px-14 xl:px-24 mt-20">
+      <div className="w-[100%] h-auto md:px-10 lg:px-14 xl:px-24 my-20">
         <h1 className="text-3xl text-center my-2 poppins-regular">Lectures</h1>
         <div className="flex flex-wrap gap-4 justify-center  ">
           {course.lectures.slice(0, show).map((data, i) => {
             return (
-              <Link to={`/`} className="transition-all delay-1000">
+              <Link to={`/courses/${courseId}/lectures/${data.resourceId.videoId}`} key={data.resourceId.videoId} className="transition-all delay-1000">
                 <LectureCard
                   title={data.title}
                   index={i}
@@ -169,9 +173,11 @@ const CourseDetail = () => {
             </button>
           )}
       </div>
+      <Footer/>
     </>
   ) : (
-    <Error />
+    <CourseDShimmer/>
+
   );
 };
 

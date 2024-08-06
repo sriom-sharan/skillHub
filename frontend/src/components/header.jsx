@@ -2,13 +2,15 @@ import logo from '../assets/logo2.png'
 import { ModeToggle } from './partials/dark-light-button';
 import { Link } from 'react-router-dom';
 import { AuthContext } from './authContext';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import Profile from './avatar';
 
-const Header = ()=>{
+const Header = ({bg=''})=>{
   const {isLoggedin,} = useContext(AuthContext)
+  const [isOpen,setIsOpen] = useState(false)
+
     return (
-   <header className="bg-transparent fixed z-50 bg-white dark:bg-black  top-0 left-0   w-full ">
+   <header className={`bg-transparent fixed z-50 ${bg} dark:bg-black  top-0 left-0   w-full `} >
   <div className="mx-auto max-w-screen-xl">
     <div className="flex h-20 items-center justify-between">
       <div className="flex-1 md:flex md:items-center md:gap-12">
@@ -62,8 +64,8 @@ const Header = ()=>{
             <ModeToggle />
           
 
-          <div className="block md:hidden pr-2">
-            <button className="rounded bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75">
+          <div className="block md:hidden pr-2 ">
+            <button onClick={()=>setIsOpen((prev)=>!prev)} className="rounded bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -75,6 +77,30 @@ const Header = ()=>{
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
+
+     { isOpen &&  <nav aria-label="Global" className="flex flex-col absolute top-20 right-0 shadow-md pb-4 bg-white w-full z-10 md:hidden">
+          <ul className="flex flex-col poppins-regular items-center gap-6 text-sm">
+
+            <hr className='text-gray-800 w-full'/>
+            <li>
+              <a className="text-gray-500 transition hover:text-gray-500/75" href="#"> ✖️ </a>
+            </li>
+            <li>
+              <a className="text-gray-500 transition hover:text-gray-500/75" href="#"> About </a>
+            </li>
+
+            <li>
+              <Link className="text-gray-500 transition hover:text-gray-500/75" to="/courses"> Courses </Link>
+            </li>
+
+            <li>
+              <a className="text-gray-500 transition hover:text-gray-500/75" href="#"> Projects </a>
+            </li>
+          </ul>
+        </nav>}
+
+
+
           </div>
         </div>
       </div>
