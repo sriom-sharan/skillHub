@@ -69,8 +69,6 @@ const CourseDetail = () => {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <Outlet />
-
       <div className="flex gap-4 poppins-regular flex-col md:flex-row mt-6 md:px-10 lg:px-14 xl:px-24 ">
         {course && (
           <div className=" w-full px-2 md:w-[70%] md:px-0">
