@@ -14,7 +14,6 @@ import CourseDetail from "./pages/CourseDetail";
 import CreateCourse from "./pages/create-course";
 import Error from "./pages/Error";
 import UserProfile from "./pages/UserProfile";
-import WatchLecture from "./pages/WatchLecture";
 import Lecture from "./pages/Lecture";
 
 function App() {
