@@ -83,7 +83,7 @@ const Header = ({bg=''})=>{
 
             <hr className='text-gray-800 w-full'/>
             <li>
-              <a className="text-gray-500 transition hover:text-gray-500/75" href="#"> ✖️ </a>
+              <p onClick={()=>setIsOpen((prev)=>!prev)} className="text-gray-500 cursor-pointer transition hover:text-gray-500/75" href="#"> ✖️ </p>
             </li>
             <li>
               <a className="text-gray-500 transition hover:text-gray-500/75" href="#"> About </a>

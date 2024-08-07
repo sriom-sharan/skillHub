@@ -15,6 +15,7 @@ import CreateCourse from "./pages/create-course";
 import Error from "./pages/Error";
 import UserProfile from "./pages/UserProfile";
 import WatchLecture from "./pages/WatchLecture";
+import Lecture from "./pages/Lecture";
 
 function App() {
   const [isLoggedin, setIsLoggedin] = useState(false);
@@ -58,6 +59,7 @@ function App() {
           <Route path="/courses/:courseId" element={<CourseDetail />}>
               <Route path="lectures/:videoId" element={<WatchLecture />} />
             </Route>
+              <Route path="lectures/:videoId" element={<Lecture />} />
           <Route path='/create-course' element={isLoggedin? <CreateCourse />:<Login/>} />
           {/* <Route path='/*' element={<Error />} /> */}
         </Routes>

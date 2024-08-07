@@ -179,10 +179,11 @@ const Courses = () => {
 
           </div>
         ) :
-          <p className="flex text-center md:gap-10 gap-4 flex-wrap justify-center text-2xl poppins-regular py-4  ">⚠️ Sorry No Course Available in this category right now.</p>
+        <LectureCard />
+          // <p className="flex text-center md:gap-10 gap-4 flex-wrap justify-center text-2xl poppins-regular py-4  ">⚠️ Sorry No Course Available in this category right now.</p>
         }
     
-    {loading && <LectureCard />  }
+    {/* {loading &&   } */}
         
 
       </div>

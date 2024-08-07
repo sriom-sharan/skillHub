@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useParams, Link,useNavigate,Outlet } from "react-router-dom";
+import { useParams, Link, useNavigate, Outlet } from "react-router-dom";
 import Header from "@/components/header";
 import { useSelector, useDispatch } from "react-redux";
 import { courseSlice } from "../store/courseSlice";
@@ -21,7 +21,6 @@ import { putData } from "@/utils/postData";
 import Footer from "@/components/footer";
 import CourseDShimmer from "@/components/courseDShimmer";
 
-
 const CourseDetail = () => {
   const { isLoggedin } = useContext(AuthContext);
   const [show, setShow] = useState(3);
@@ -30,17 +29,14 @@ const CourseDetail = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-
-
-
   const course = useSelector((state) => state.course.info);
   const dispatch = useDispatch();
 
-  async function enrollInCourse(){
-    const response = await putData('courses/enroll',{courseId});
-    console.log( response.msg);
-    if (response.msg === "Enrolled in course successfully"){
-      navigate('/profile')
+  async function enrollInCourse() {
+    const response = await putData("courses/enroll", { courseId });
+    console.log(response.msg);
+    if (response.msg === "Enrolled in course successfully") {
+      navigate("/profile");
     } else {
       setError(response.msg || "Login failed");
     }
@@ -48,7 +44,7 @@ const CourseDetail = () => {
 
   useEffect(() => {
     dispatch(asyncloadcourse(courseId));
-   
+
     return () => {
       dispatch(removecourse());
     };
@@ -73,11 +69,11 @@ const CourseDetail = () => {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <Outlet/>
+      <Outlet />
 
       <div className="flex gap-4 poppins-regular flex-col md:flex-row mt-6 md:px-10 lg:px-14 xl:px-24 ">
         {course && (
-          <div className=" w-[70%]">
+          <div className=" w-full px-2 md:w-[70%] md:px-0">
             <img
               className=" shadow-2xl rounded-lg shadow-accent"
               src={course.thumbnail}
@@ -99,7 +95,7 @@ const CourseDetail = () => {
         )}
 
         {course && (
-          <div className="border-[1px] w-[30%] p-4">
+          <div className="border-[1px] w-full md:w-[30%] p-4">
             <div className="pb-2">
               <h4 className=" text-2xl poppins-semibold">About the Course</h4>
             </div>
@@ -130,7 +126,13 @@ const CourseDetail = () => {
 
             <div className=" justify-center flex  mt-8">
               <button
-                onClick={isLoggedin ? enrollInCourse:()=>{navigate('/login')}}
+                onClick={
+                  isLoggedin
+                    ? enrollInCourse
+                    : () => {
+                        navigate("/login");
+                      }
+                }
                 className="border[1px] main-gradient  text-center p-2 px-4 rounded-sm text-white w-96"
               >
                 Enroll Now
@@ -138,15 +140,26 @@ const CourseDetail = () => {
             </div>
           </div>
         )}
-       
       </div>
-      <hr className="my-2 mx-24"/>
+      <hr className="my-2 mx-24" />
       <div className="w-[100%] h-auto md:px-10 lg:px-14 xl:px-24 my-20">
-        <h1 className="text-3xl text-center my-2 poppins-regular">Lectures</h1>
+        <h1 className="text-3xl text-center mt-2 poppins-regular">Lectures</h1>
+        <hr className="mb-4 mt-1" />
         <div className="flex flex-wrap gap-4 justify-center  ">
           {course.lectures.slice(0, show).map((data, i) => {
             return (
-              <Link to={`/courses/${courseId}/lectures/${data.resourceId.videoId}`} key={data.resourceId.videoId} className="transition-all delay-1000">
+              <Link
+                to={{
+                  pathname: `/lectures/${data.resourceId.videoId}`,
+                  // state: {
+                  //   title: data.title,
+                  //   description: data.description,
+                  // },
+                }}
+                key={data.resourceId.videoId}
+                className="transition-all delay-1000"
+              >
+                {" "}
                 <LectureCard
                   title={data.title}
                   index={i}
@@ -157,27 +170,27 @@ const CourseDetail = () => {
             );
           })}
         </div>
-          {show <= course.lectures.length ? (
-            <button
-              onClick={() => setShow((prev) => prev + 10)}
-              className="border-[1px] mt-8 p-1 underline bg-purple-200 shadow-background rounded-full p w-full"
-            >
-              Show More..
-            </button>
-          ) : (
-            <button
-              onClick={() => setShow(3)}
-              className="border-[1px] my-2 p-1 underline bg-purple-200 shadow-background rounded-full p w-full"
-            >
-              Collapse All
-            </button>
-          )}
+        
+        {show <= course.lectures.length ? (
+          <button
+            onClick={() => setShow((prev) => prev + 10)}
+            className="border-[1px] mt-8 p-1 underline bg-purple-200 shadow-background rounded-full p w-full"
+          >
+            Show More..
+          </button>
+        ) : (
+          <button
+            onClick={() => setShow(3)}
+            className="border-[1px] my-2 p-1 underline bg-purple-200 shadow-background rounded-full p w-full"
+          >
+            Collapse All
+          </button>
+        )}
       </div>
-      <Footer/>
+      <Footer />
     </>
   ) : (
-    <CourseDShimmer/>
-
+    <CourseDShimmer />
   );
 };
 
