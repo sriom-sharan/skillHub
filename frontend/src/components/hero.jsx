@@ -6,7 +6,7 @@ const Hero = () => {
   return (
 
     <div className="flex flex-col md:flex-row mt-24 justify-between items-center">
-          <div className="absolute w-screen h-[120%]  sm:h-[120%] md:h-[70%] lg:h-screen opacity-45 -z-10 top-0 left-0">
+          <div className="absolute w-screen h-[120%] dark:hidden  sm:h-[120%] md:h-[70%] lg:h-screen opacity-45 -z-10 top-0 left-0">
             <Novatrix/>
             </div>  
       <div className="poppins-medium flex flex-col justify-center w-full md:w-[45%] py-10 px-4 md:px-0 ">
