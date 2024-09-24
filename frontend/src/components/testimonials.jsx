@@ -2,7 +2,7 @@ import React from 'react'
 
 const Testimonials = () => {
   return (
-    <section className="py-12 poppins-regular sm:py-16 lg:py-20">
+    <section className="py-12 poppins-regular dark:bg-zinc-900 sm:py-16 lg:py-20">
   <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div className="flex flex-col items-center">
       <div className="text-center">
@@ -16,7 +16,7 @@ const Testimonials = () => {
 
         <div className="relative mx-auto grid max-w-lg grid-cols-1 gap-6 md:max-w-none md:grid-cols-3 lg:gap-10">
           <div className="flex flex-col overflow-hidden rounded-xl border shadow-sm">
-            <div className="flex flex-1 flex-col justify-between bg-white p-6 lg:px-7 lg:py-8">
+            <div className="flex flex-1 flex-col justify-between bg-white dark:bg-zinc-300 p-6 lg:px-7 lg:py-8">
               <div className="flex-1">
                 <div className="flex items-center">
                   <svg className="h-5 w-5 text-orange-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -51,7 +51,7 @@ const Testimonials = () => {
             </div>
           </div>
           <div className="flex flex-col overflow-hidden rounded-xl border shadow-sm">
-            <div className="flex flex-1 flex-col justify-between bg-white p-6 lg:px-7 lg:py-8">
+            <div className="flex flex-1 flex-col justify-between bg-white dark:bg-zinc-300 p-6 lg:px-7 lg:py-8">
               <div className="flex-1">
                 <div className="flex items-center">
                   <svg className="h-5 w-5 text-orange-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -86,7 +86,7 @@ const Testimonials = () => {
             </div>
           </div>
           <div className="flex flex-col overflow-hidden rounded-xl border shadow-sm">
-            <div className="flex flex-1 flex-col justify-between bg-white p-6 lg:px-7 lg:py-8">
+            <div className="flex flex-1 flex-col justify-between bg-white dark:bg-zinc-300 p-6 lg:px-7 lg:py-8">
               <div className="flex-1">
                 <div className="flex items-center">
                   <svg className="h-5 w-5 text-orange-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">

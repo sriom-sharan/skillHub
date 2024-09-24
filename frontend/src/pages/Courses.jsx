@@ -114,9 +114,9 @@ const Courses = () => {
   }, []);
 
   return (
-    <>
-      <Header bg="bg-white"  />
-      <h1 className="poppins-regular md:text-6xl sm:text-5xl sm:w-[75%] text-5xl w-[95%] leading-[1.25] text-center md:w-[40rem] mx-auto mt-32">
+    <div className="dark:bg-zinc-900 scroll-smooth">
+      <Header  />
+      <h1 className="poppins-regular md:text-6xl sm:text-5xl sm:w-[75%] text-5xl w-[95%] leading-[1.25] text-center md:w-[40rem] mx-auto pt-32">
         Discover the top courses & playlists
       </h1>
       <p className="text-sm md:w-[40rem] w-[90%] mb-12 mt-6 mx-auto text-center">
@@ -189,7 +189,7 @@ const Courses = () => {
       </div>
 
       <Footer />
-    </>
+    </div>
   );
 };
 

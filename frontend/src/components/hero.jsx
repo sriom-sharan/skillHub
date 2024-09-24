@@ -5,7 +5,7 @@ import { Novatrix } from "uvcanvas";
 const Hero = () => {
   return (
 
-    <div className="flex flex-col md:flex-row mt-24 justify-between items-center">
+    <div className="flex flex-col md:flex-row dark:bg-zinc-900 pt-24 justify-between items-center">
           <div className="absolute w-screen h-[120%] dark:hidden  sm:h-[120%] md:h-[70%] lg:h-screen opacity-45 -z-10 top-0 left-0">
             <Novatrix/>
             </div>  

@@ -41,8 +41,8 @@ function Home() {
   }, []);
 
   return (
-    <>
-      <section className=" h-full sm:px-6 px-4  md:px-10 lg:px-14 xl:px-24  w-full">
+    <div className="scroll-smooth">
+      <section className=" h-full sm:px-6 px-4 dark:bg-zinc-900 md:px-10 lg:px-14 xl:px-24  w-full">
         <Header />
         <Hero />
       </section>
@@ -53,7 +53,7 @@ function Home() {
       </div>
 
       {/* Benefits */}
-      <div className="flex sm:px-6 px-4 md:px-10 lg:px-14 flex-col lg:flex-row   xl:px-44 py-20  gap-10">
+      <div className="flex dark:bg-zinc-900 sm:px-6 px-4 md:px-10 lg:px-14 flex-col lg:flex-row   xl:px-44 py-20  gap-10">
         <div className="flex-1 flex items-center justify-center lg:justify-normal ">
           <img
             src={collage}
@@ -122,7 +122,7 @@ function Home() {
       {/* Footer */}
       <Testimonials/>
       <Footer />
-    </>
+    </div>
   );
 }
 

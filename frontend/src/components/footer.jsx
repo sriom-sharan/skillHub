@@ -11,7 +11,7 @@ const Footer = () => {
               {/* <img className='w-24 dark:fliter brightness-200 contrast-0' src={logo} /> */}
         <h1 className="text-2xl main-font-color poppins-bold">
                {" "}
-                <span className="dark:text-white text-black">
+                <span className="  text-black">
                   Skill
                 </span>
                 Hub{" "}
@@ -57,7 +57,7 @@ const Footer = () => {
       </div>
       <div className="grid grid-cols-1 gap-8 lg:col-span-2 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <p className="font-medium">
+          <p className="font-medium dark:text-black">
             Company
           </p>
           <nav className="flex flex-col mt-4 space-y-2 text-sm text-gray-500">
@@ -68,7 +68,7 @@ const Footer = () => {
           </nav>
         </div>
         <div>
-          <p className="font-medium">
+          <p className="font-medium dark:text-black">
             Services
           </p>
           <nav className="flex flex-col mt-4 space-y-2 text-sm text-gray-500">
@@ -80,7 +80,7 @@ const Footer = () => {
           </nav>
         </div>
         <div>
-          <p className="font-medium">
+          <p className="font-medium dark:text-black">
             Helpful Links
           </p>
           <nav className="flex flex-col mt-4 space-y-2 text-sm text-gray-500">
@@ -90,7 +90,7 @@ const Footer = () => {
           </nav>
         </div>
         <div>
-          <p className="font-medium">
+          <p className="font-medium dark:text-black">
             Legal
           </p>
           <nav className="flex flex-col mt-4 space-y-2 text-sm text-gray-500">

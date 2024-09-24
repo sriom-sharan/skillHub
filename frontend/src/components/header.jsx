@@ -2,15 +2,33 @@ import logo from '../assets/logo2.png'
 import { ModeToggle } from './partials/dark-light-button';
 import { Link } from 'react-router-dom';
 import { AuthContext } from './authContext';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Profile from './avatar';
 
 const Header = ({bg=''})=>{
   const {isLoggedin,} = useContext(AuthContext)
   const [isOpen,setIsOpen] = useState(false)
+  const [scrolled,setScrolled] = useState(0)
+
+  const handleScroll = () => {
+    if (window.scrollY > 50) {
+        setScrolled(true);
+    } else {
+        setScrolled(false);
+    }
+};
+
+useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    
+    // Cleanup the event listener on component unmount
+    return () => {
+        window.removeEventListener('scroll', handleScroll);
+    };
+}, []);
 
     return (
-   <header className={`bg-transparent fixed z-50 ${bg} dark:bg-black  top-0 left-0   w-full `} >
+   <header className={`bg-transparent fixed z-50  ${scrolled?'bg-white dark:bg-black':'bg:transparent dark:bg-zinc-900'} px-4 md:px-8 xl:px-0   top-0 left-0   w-full `} >
   <div className="mx-auto max-w-screen-xl">
     <div className="flex h-20 items-center justify-between">
       <div className="flex-1 md:flex md:items-center md:gap-12">
@@ -19,10 +37,10 @@ const Header = ({bg=''})=>{
           {/* <img className='w-24 dark:fliter brightness-200 contrast-0' src={logo} /> */}
           <h1 className="text-2xl main-font-color  poppins-bold">
           {" "}
-          <span className="dark:text-white pl-2 xl:pl-0 text-black">Skill</span>Hub </h1>
+          <span className="dark:text-white pl-2 xl:pl-0  text-black">Skill</span>Hub </h1>
         </Link>
       </div>
-
+      
       <div className="md:flex md:items-center md:gap-12">
         <nav aria-label="Global" className="hidden md:block">
           <ul className="flex poppins-regular items-center gap-6 text-sm">
@@ -51,6 +69,7 @@ const Header = ({bg=''})=>{
 
             <div className="hidden sm:flex">
               <Link
+              
                 className="rounded-full text-white main-gradient px-6 py-2 poppins-bold text-sm "
                 to='/signup'
               >

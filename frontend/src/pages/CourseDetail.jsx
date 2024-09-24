@@ -51,9 +51,9 @@ const CourseDetail = () => {
   }, [dispatch, courseId]);
 
   return course && dispatch ? (
-    <>
-      <Header bg="bg-white" />
-      <Breadcrumb className="mt-32 mb-12  md:px-10 lg:px-14 xl:px-24 ">
+    <div className="dark:bg-zinc-900">
+      <Header />
+      <Breadcrumb className="pt-32 mb-12  md:px-10 lg:px-14 xl:px-24 ">
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink href="/">Home</BreadcrumbLink>
@@ -172,7 +172,7 @@ const CourseDetail = () => {
         {show <= course.lectures.length ? (
           <button
             onClick={() => setShow((prev) => prev + 10)}
-            className="border-[1px] mt-8 p-1 underline bg-purple-200 shadow-background rounded-full p w-full"
+            className="border-[1px] mt-8 p-1  bg-purple-200 dark:bg-purple-400 shadow-background rounded-full p w-full"
           >
             Show More..
           </button>
@@ -186,7 +186,7 @@ const CourseDetail = () => {
         )}
       </div>
       <Footer />
-    </>
+    </div>
   ) : (
     <CourseDShimmer />
   );
