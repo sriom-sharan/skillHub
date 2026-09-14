@@ -4,70 +4,111 @@ const { User } = require("../../db/db.js");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const bcrypt = require("bcrypt");
-const { sendEmail } = require('../sendMail.js');
+const { sendEmail } = require("../sendMail.js");
 const crypto = require("crypto");
 
 const saltRounds = 10;
 
 // SignUp Schema
 const signupSchema = zod.object({
-  name: zod.string().min(3).max(30),
-  email: zod.string().email(),
-  password: zod.string().min(6).max(16),
+  name: zod
+    .string()
+    .trim()
+    .min(3, "Name must be at least 3 characters")
+    .max(30, "Name must not exceed 30 characters"),
+
+  email: zod
+    .string()
+    .trim()
+    .email("Please enter a valid email address")
+    .transform((email) => email.toLowerCase()),
+
+  password: zod
+    .string()
+    .min(6, "Password must be at least 6 characters")
+    .max(16, "Password must not exceed 16 characters"),
 });
 
 async function signupMiddleware(req, res, next) {
-  const body = req.body;
+  // Validate request body
+  const response = signupSchema.safeParse(req.body);
 
-  // Checking the format of request obj is correct or not through zod.
-  const response = signupSchema.safeParse(body);
   if (!response.success) {
-    return res.status(400).json({ msg: "Invalid input credentials" });
+    return res.status(400).json({
+      success: false,
+      message: "Validation failed",
+      errors: response.error.flatten().fieldErrors,
+    });
   }
 
-  try {
-    // Creating token for authentication on every request.
-    const token = jwt.sign(
-      { name: body.name, email: body.email },
-      process.env.SECRET_KEY
-    );
-    // Hashing the password
-    const hashPassword = await bcrypt.hash(body.password, saltRounds);
+  // Use validated data
+  const { name, email, password } = response.data;
 
-    // Checking if email exists in DB
-    const checkEmail = await User.findOne({ email: body.email });
-    if (checkEmail) {
-      console.log("Email is already in use.");
-      return res.status(400).json({ msg: "Email is already in use." });
+  try {
+    // Check if email already exists
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      return res.status(409).json({
+        success: false,
+        message: "Email is already registered.",
+      });
     }
 
-    // Posting data to DB
+    // Hash password
+    const hashPassword = await bcrypt.hash(password, saltRounds);
+
+    // Create user
     const user = await User.create({
-      name: body.name,
-      email: body.email,
+      name,
+      email,
       password: hashPassword,
     });
 
-    // Generate OTP and update user
-    const otp = crypto.randomInt(100000, 999999); // 6-digit OTP
-    const updateUser = await User.findOneAndUpdate(
-      { email: body.email },
-      { validationCode: otp, validationCodeCreatedAt: new Date() },
-      { new: true }
+    // Generate OTP
+    const otp = crypto.randomInt(100000, 1000000);
+
+    // Save OTP
+    await User.findByIdAndUpdate(user._id, {
+      validationCode: otp,
+      validationCodeCreatedAt: new Date(),
+    });
+
+    // Create authentication token
+    const token = jwt.sign(
+      {
+        name: user.name,
+        email: user.email,
+      },
+      process.env.SECRET_KEY,
     );
 
-    // Send email with OTP
-    sendEmail(
+    // Send OTP email
+    await sendEmail(
       user.email,
       user.name,
       "Validation of Account",
-      `Your OTP is ${otp} <p>**Do not share this with anyone.**</p>`
+      `
+        <h2>Validate Your SkillHub Account</h2>
+        <p>Hello ${user.name},</p>
+        <p>Your OTP is:</p>
+        <h1>${otp}</h1>
+        <p><strong>Do not share this OTP with anyone.</strong></p>
+      `,
     );
 
-    return res.json({ msg: "Account created successfully. OTP has been sent to email.", token });
+    return res.status(201).json({
+      success: true,
+      message: "Account created successfully. OTP has been sent to your email.",
+      token,
+    });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ msg: "Internal server error" });
+    console.error("Signup error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
   }
 }
 
