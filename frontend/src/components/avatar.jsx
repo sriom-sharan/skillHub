@@ -29,7 +29,7 @@ const Profile = () => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel ><Link to={'/profile'}>Profile</Link> </DropdownMenuLabel>
+        <DropdownMenuItem ><Link className="flex items-center gap-1 poppins-regular" to={'/profile'}>Profile</Link> </DropdownMenuItem>
         <DropdownMenuItem>My Courses</DropdownMenuItem>
         <DropdownMenuItem ><Link to={'/create-course'} className="flex items-center gap-1 poppins-regular" > Create Course <GoDotFill className="text-green-600 w-3" /></Link></DropdownMenuItem>
         {/* <DropdownMenuItem>Billing</DropdownMenuItem>

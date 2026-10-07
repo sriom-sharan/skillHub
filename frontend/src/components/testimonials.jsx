@@ -1,132 +1,125 @@
-import React from 'react'
+import { Quote, Star } from "lucide-react";
+
+const testimonials = [
+  {
+    name: "Student Feedback",
+    role: "SkillHub Learner",
+    message:
+      "SkillHub makes it easier to find relevant learning resources without spending too much time searching through different playlists.",
+  },
+  {
+    name: "Student Feedback",
+    role: "SkillHub Learner",
+    message:
+      "The course structure and simple interface make it easier to decide what I want to learn and start learning quickly.",
+  },
+  {
+    name: "Student Feedback",
+    role: "SkillHub Learner",
+    message:
+      "I like the idea of bringing useful learning resources into one platform instead of searching through large collections of content.",
+  },
+];
 
 const Testimonials = () => {
   return (
-    <section className="py-12 poppins-regular dark:bg-zinc-900 sm:py-16 lg:py-20">
-  <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div className="flex flex-col items-center">
-      <div className="text-center">
-        <h2 className="mt-4 text-3xl dark:text-white poppins-regular font-bold text-blue-900 sm:text-4xl xl:text-4xl">Have a look at what our students say</h2>
-      </div>
+    <section className="border-y border-border bg-background py-16 sm:py-20 lg:py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
-      <div className="relative mt-10 md:order-2 md:mt-20">
-        <div className="absolute -inset-x-1 inset-y-16 md:-inset-x-2 md:-inset-y-6">
-          <div className="mx-auto h-full w-full max-w-5xl rounded-3xl opacity-30 blur-lg filter"></div>
+        {/* ================= HEADER ================= */}
+        <div className="mx-auto max-w-2xl text-center">
+
+          <div className="mb-4 inline-flex  items-center rounded-full border border-border bg-muted/50 px-4 py-2 text-sm text-muted-foreground">
+            What learners think
+          </div>
+
+          <h2 className="poppins-medium poppins-regular text-3xl tracking-tight text-foreground sm:text-4xl">
+            Built to make learning easier
+          </h2>
+
+          <p className="mt-4 text-base leading-7 text-muted-foreground">
+            SkillHub is designed to reduce the time spent searching for
+            learning resources and help students focus on actually learning.
+          </p>
         </div>
 
-        <div className="relative mx-auto grid max-w-lg grid-cols-1 gap-6 md:max-w-none md:grid-cols-3 lg:gap-10">
-          <div className="flex flex-col overflow-hidden rounded-xl border shadow-sm">
-            <div className="flex flex-1 flex-col justify-between bg-white dark:bg-zinc-300 p-6 lg:px-7 lg:py-8">
-              <div className="flex-1">
-                <div className="flex items-center">
-                  <svg className="h-5 w-5 text-orange-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                  <svg className="h-5 w-5 text-orange-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                  <svg className="h-5 w-5 text-orange-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                  <svg className="h-5 w-5 text-orange-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                  <svg className="h-5 w-5 text-orange-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                </div>
+        {/* ================= TESTIMONIALS ================= */}
+        <div className="mt-12 grid gap-6 md:grid-cols-3 lg:gap-8">
 
-                <blockquote className="mt-8 flex-1">
-                  <p className="font-[400] text-xl italic text-blue-900">“Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi ducimus repellat aperiam quam consequatur eligendi totam vitae iusto mollitia esse.”</p>
-                </blockquote>
+          {testimonials.map((testimonial, index) => (
+            <article
+              key={index}
+              className="
+                group flex h-full flex-col
+                rounded-2xl
+                border border-border
+                bg-card
+                p-6
+                shadow-sm
+                transition-all duration-200
+                hover:-translate-y-1
+                hover:shadow-md
+                lg:p-7
+              "
+            >
+
+              {/* Quote Icon */}
+              <div
+                className="
+                  flex h-10 w-10
+                  items-center justify-center
+                  rounded-xl
+                  bg-primary/10
+                "
+              >
+                <Quote className="h-5 w-5 text-primary" />
               </div>
 
-              <div className="mt-8 flex items-center">
-                <img className="h-11 w-11 flex-shrink-0 rounded-full object-cover" src="/images/Ju6-1negUEjTnBKw_ZP4r.png" alt="" />
-                <div className="ml-4">
-                  <p className="text-base font-bold text-blue-900">Vinod Sharma</p>
-                  <p className="mt-0.5 text-sm text-gray-500">CEO Lufthansa Corp</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col overflow-hidden rounded-xl border shadow-sm">
-            <div className="flex flex-1 flex-col justify-between bg-white dark:bg-zinc-300 p-6 lg:px-7 lg:py-8">
-              <div className="flex-1">
-                <div className="flex items-center">
-                  <svg className="h-5 w-5 text-orange-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                  <svg className="h-5 w-5 text-orange-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                  <svg className="h-5 w-5 text-orange-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                  <svg className="h-5 w-5 text-orange-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                  <svg className="h-5 w-5 text-orange-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                </div>
-
-                <blockquote className="mt-8 flex-1">
-                  <p className="font-[400] text-xl italic text-blue-900">“Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi ducimus repellat aperiam quam consequatur eligendi totam vitae iusto mollitia esse.”</p>
-                </blockquote>
+              {/* Stars */}
+              <div className="mt-5 flex items-center gap-1">
+                {Array.from({ length: 5 }).map((_, starIndex) => (
+                  <Star
+                    key={starIndex}
+                    className="
+                      h-4 w-4
+                      fill-yellow-500
+                      text-yellow-500
+                    "
+                  />
+                ))}
               </div>
 
-              <div className="mt-8 flex items-center">
-                <img className="h-11 w-11 flex-shrink-0 rounded-full object-cover" src="/images/Ju6-1negUEjTnBKw_ZP4r.png" alt="" />
-                <div className="ml-4">
-                  <p className="text-base font-bold text-blue-900">Vishal Kumar</p>
-                  <p className="mt-0.5 text-sm text-gray-500">Working in FAANG</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col overflow-hidden rounded-xl border shadow-sm">
-            <div className="flex flex-1 flex-col justify-between bg-white dark:bg-zinc-300 p-6 lg:px-7 lg:py-8">
-              <div className="flex-1">
-                <div className="flex items-center">
-                  <svg className="h-5 w-5 text-orange-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                  <svg className="h-5 w-5 text-orange-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                  <svg className="h-5 w-5 text-orange-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                  <svg className="h-5 w-5 text-orange-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                  <svg className="h-5 w-5 text-orange-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                </div>
+              {/* Message */}
+              <blockquote className="mt-5 flex-1">
+                <p className="text-sm leading-7 text-muted-foreground">
+                  "{testimonial.message}"
+                </p>
+              </blockquote>
 
-                <blockquote className="mt-8 flex-1">
-                  <p className="font-[400] text-xl italic text-blue-900">“Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi ducimus repellat aperiam quam consequatur eligendi totam vitae iusto mollitia esse.”</p>
-                </blockquote>
-              </div>
+              {/* User */}
+              <div className="mt-7 border-t border-border pt-5">
+                <p className="poppins-semibold text-sm text-foreground">
+                  {testimonial.name}
+                </p>
 
-              <div className="mt-8 flex items-center">
-                <img className="h-11 w-11 flex-shrink-0 rounded-full object-cover" src="/images/Ju6-1negUEjTnBKw_ZP4r.png" alt="" />
-                <div className="ml-4">
-                  <p className="text-base font-bold text-blue-900">Akorn Veesle</p>
-                  <p className="mt-0.5 text-sm text-gray-500">CEO Lufthansa Corp</p>
-                </div>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {testimonial.role}
+                </p>
               </div>
-            </div>
-          </div>
+            </article>
+          ))}
+
         </div>
+
+        {/* ================= NOTE ================= */}
+        <p className="mx-auto mt-8 max-w-xl text-center text-xs leading-5 text-muted-foreground">
+          These are representative product feedback examples. Real learner
+          reviews can be connected to SkillHub enrollment and rating data.
+        </p>
+
       </div>
-    </div>
-  </div>
-</section>
+    </section>
+  );
+};
 
-  )
-}
-
-export default Testimonials
+export default Testimonials;

@@ -25,7 +25,7 @@ function Home() {
       setLoading(true);
       const { data } = await axios.get("./courses/popular");
       console.log(data);
-      setCourses(data);
+      setCourses(data?.courses);
     } catch (error) {
       console.log(error);
     } finally {
@@ -42,7 +42,7 @@ function Home() {
 
   return (
     <div className="scroll-smooth">
-      <section className=" h-full sm:px-6 px-4 dark:bg-zinc-900 md:px-10 lg:px-14 xl:px-24  w-full">
+      <section className=" h-full sm:px-6 px-4  md:px-10 lg:px-14 xl:px-24  w-full">
         <Header />
         <Hero />
       </section>
@@ -53,7 +53,7 @@ function Home() {
       </div>
 
       {/* Benefits */}
-      <div className="flex dark:bg-zinc-900 sm:px-6 px-4 md:px-10 lg:px-14 flex-col lg:flex-row   xl:px-44 py-20  gap-10">
+      <div className="flex bg-background sm:px-6 px-4 md:px-10 lg:px-14 flex-col lg:flex-row   xl:px-44 py-20  gap-10">
         <div className="flex-1 flex items-center justify-center lg:justify-normal ">
           <img
             src={collage}
@@ -99,26 +99,48 @@ function Home() {
         </div>
       </div>
 
-      {/* Popular Course Category */}
-      <div className=" sm:px-6 px-4 md:px-10 lg:px-14 main-gradient flex flex-col xl:px-24 py-20  gap-10">
-        <div className="flex flex-col md:w-1/2 w-full mx-auto gap-2">
-          <h1 className="text-white poppins-medium text-3xl md:text-4xl pb-2 text-center">
-            Our Popular Courses
-          </h1>
-          <p className="text-white text-center poppins-regular text-sm">
-            {" "}
-            Discover our most sought-after courses, carefully curated to meet
-            the demands of today's learners. Dive into engaging content crafted
-            for success in every step of your educational journey.
-          </p>
-        </div>
-{    courses.length>1 &&    <div className="flex md:gap-10 gap-4 flex-wrap justify-center">
-         <Card title={courses[0].courseName} numOfEnrollment={courses[0].userCount} category={courses[0].category} numOfVideos={courses[0].videos.length} authorName={courses[0].authorName} />
-         <Card title={courses[1].courseName} numOfEnrollment={courses[1].userCount} category={courses[1].category} numOfVideos={courses[1].videos.length} authorName={courses[1].authorName} /> 
-         <Card title={courses[2].courseName} numOfEnrollment={courses[2].userCount} category={courses[2].category} numOfVideos={courses[2].videos.length} authorName={courses[2].authorName} /> 
-         <Card title={courses[3].courseName} numOfEnrollment={courses[3].userCount} category={courses[3].category} numOfVideos={courses[3].videos.length} authorName={courses[3].authorName} /> 
-        </div>}
+
+{/* Popular Courses */}
+<section className="bg-background border px-4 py-20 sm:px-6 md:px-10 lg:px-14 xl:px-24">
+  <div className="mx-auto flex max-w-7xl flex-col gap-10">
+    
+    <div className="mx-auto flex w-full max-w-2xl flex-col gap-2 text-center">
+      <h2 className="poppins-semibold text-3xl text-foreground md:text-4xl">
+        <span className="text-purple-500">Popular</span> Courses
+      </h2>
+
+      <p className="text-sm leading-6 text-muted-foreground">
+        Discover the courses learners are engaging with the most.
+        Start learning with carefully selected resources from SkillHub.
+      </p>
+    </div>
+
+    {loading ? (
+      <div className="flex justify-center py-10">
+        <p className="text-sm text-muted-foreground">
+          Loading popular courses...
+        </p>
       </div>
+    ) : courses.length > 0 ? (
+      <div className="flex flex-wrap justify-center gap-6 md:gap-8">
+        {courses.map((course) => (
+          <Card
+            key={course.courseId}
+            course={course}
+          />
+        ))}
+      </div>
+    ) : (
+      <div className="py-10 text-center">
+        <p className="text-sm text-muted-foreground">
+          No popular courses available yet.
+        </p>
+      </div>
+    )}
+  </div>
+</section>
+
+
       {/* Footer */}
       <Testimonials/>
       <Footer />

@@ -39,53 +39,163 @@ const userSchema = new Schema(
 
 // Course Schema
 const courseSchema = new Schema(
-  {
-    name: { type: String, required: true },
-    description: { type: String, required: true },
-    isPaid: { type: Boolean, default: false },
-    price: { type: Number, required: function() { return this.isPaid; } },
-    language:{type:String ,enum:['Hindi','English','Hinglish']},
-    prerequisite : { type: String },
-    category: {
-      type: String,
-      enum: [
-        "Web Development",
-        "Designing",
-        "Mobile App Development",
-        "Data Structures and Algorithms",
-        "Data Analytics",
-        "Data Science",
-        "Artificial Intelligence",
-        "Machine Learning",
-        "Cloud Computing",
-        "Cybersecurity",
-        "Blockchain",
-        "Internet of Things",
-        "Game Development",
-        "DevOps",
-        "Software Testing",
-        "Database Management",
-        "Networking",
-        "Programming Languages",
-        "IT & Software",
-        "Digital Marketing",
-        "Project Management",
-        "Business",
-        "Finance",
-        "Personal Development",
-        "Health & Fitness",
-      ],
-      required: true,
+    {
+        name: {
+            type: String,
+            required: true,
+            trim: true,
+            minlength: 3,
+            maxlength: 100
+        },
+
+        description: {
+            type: String,
+            required: true,
+            trim: true
+        },
+
+        isPaid: {
+            type: Boolean,
+            default: false
+        },
+
+        price: {
+            type: Number,
+            required: function () {
+                return this.isPaid;
+            },
+            min: 0
+        },
+
+        language: {
+            type: String,
+            enum: ["Hindi", "English", "Hinglish"],
+            required: true
+        },
+
+        prerequisite: {
+            type: String,
+            trim: true
+        },
+
+        category: {
+            type: String,
+            enum: [
+                "Web Development",
+                "Designing",
+                "Mobile App Development",
+                "Data Structures and Algorithms",
+                "Data Analytics",
+                "Data Science",
+                "Artificial Intelligence",
+                "Machine Learning",
+                "Cloud Computing",
+                "Cybersecurity",
+                "Blockchain",
+                "Internet of Things",
+                "Game Development",
+                "DevOps",
+                "Software Testing",
+                "Database Management",
+                "Networking",
+                "Programming Languages",
+                "IT & Software",
+                "Digital Marketing",
+                "Project Management",
+                "Business",
+                "Finance",
+                "Personal Development",
+                "Health & Fitness"
+            ],
+            required: true,
+            index: true
+        },
+
+        skills: {
+            type: String,
+            required: true,
+            trim: true
+        },
+
+        author: {
+            type: Schema.Types.ObjectId,
+            ref: "User",
+            required: true,
+            index: true
+        },
+
+        authorName: {
+            type: String,
+            required: true,
+            trim: true
+        },
+
+        enrolledUsers: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "User"
+            }
+        ],
+
+        totalEnrolled: {
+            type: Number,
+            default: 0,
+            min: 0
+        },
+
+        youtubePlaylistId: {
+            type: String,
+            required: true,
+            unique: true,
+            index: true,
+            trim: true
+        },
+
+        videos: [
+            {
+                resourceId: {
+                    videoId: {
+                        type: String,
+                        required: true
+                    }
+                },
+
+                title: {
+                    type: String,
+                    required: true
+                },
+
+                description: {
+                    type: String
+                },
+
+                thumbnails: {
+                    default: {
+                        url: String
+                    },
+
+                    medium: {
+                        url: String
+                    },
+
+                    high: {
+                        url: String
+                    }
+                },
+
+                position: {
+                    type: Number
+                },
+
+                publishedAt: {
+                    type: Date
+                }
+            }
+        ]
     },
-    skills: { type: String,required:true },
-    author: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    authorName:{type:String},
-    enrolledUsers: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    totalEnrolled:{type:Number},
-    youtubePlaylistId: { type: String,required:true,unique: true }, // Add this field
-    videos: {type:Object, required:true},
-  },
-  { timestamps: true }
+    {
+        timestamps: true
+    }
 );
 
 // Enrollment Schema
@@ -103,6 +213,11 @@ const enrollmentSchema = new Schema(
   },
   { timestamps: true }
 );
+
+enrollmentSchema.index(
+    {user:1, course:1},
+    {unique:true}
+)
 
 // Models
 const User = mongoose.model("User", userSchema);

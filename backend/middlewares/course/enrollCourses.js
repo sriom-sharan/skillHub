@@ -1,9 +1,9 @@
-const { Course,User,Enrollment } = require("../../db/db.js");
+const { Course, User, Enrollment } = require("../../db/db.js");
 
-async function enrollCourse(req,res,next){
-    const {courseId} = req.body;
-    console.log(req.user);
-  const {_id} = req.user;
+async function enrollCourse(req, res, next) {
+  const { courseId } = req.body;
+  console.log(req.user);
+  const { _id } = req.user;
 
   if (!courseId) {
     return res.status(400).json({ msg: "Invalid input credentials" });
@@ -14,28 +14,44 @@ async function enrollCourse(req,res,next){
       [
         {
           $set: {
-            enrolledUsers: { $concatArrays: ['$enrolledUsers', [_id]] },
-            totalEnrolled: { $size: { $concatArrays: ['$enrolledUsers', [_id]] } }
-          }
-        }
+            enrolledUsers: { $concatArrays: ["$enrolledUsers", [_id]] },
+            totalEnrolled: {
+              $size: { $concatArrays: ["$enrolledUsers", [_id]] },
+            },
+          },
+        },
       ],
-      { new: true } // This option returns the modified document
+      { new: true }, // This option returns the modified document
     );
     if (!course) {
-        return res.status(400).json({ msg: "Course Id is incorrect" });
-      }
+      return res.status(400).json({ msg: "Course Id is incorrect" });
+    }
+
+    const existingEnrollment = await Enrollment.findOne({
+      user: req.user._id,
+      course: courseId,
+    });
+
+    if (existingEnrollment) {
+      return res.status(409).json({
+        success: false,
+        message: "You are already enrolled in this course.",
+      });
+    }
     console.log(course);
     const enroll = await Enrollment.create({
-        course:course._id,
-        status:'enrolled',
-        user:_id,
-      });
-      console.log(enroll);
-     await User.findOneAndUpdate(_id,{$push: { enrolledCourses: course._id }})
-    return  res.json({ msg: "Enrolled in course successfully" });
+      course: course._id,
+      status: "enrolled",
+      user: _id,
+    });
+    console.log(enroll);
+    await User.findOneAndUpdate(_id, {
+      $push: { enrolledCourses: course._id },
+    });
+    return res.json({ msg: "Enrolled in course successfully" });
   } catch (error) {
     return res.status(500).json({ msg: "Internal Server Error", error });
   }
 }
 
-module.exports = {enrollCourse}
+module.exports = { enrollCourse };

@@ -1,18 +1,16 @@
 import img from "../assets/student4.png";
 import { Link } from "react-router-dom";
-import { Novatrix } from "uvcanvas";
+// import { Novatrix } from "uvcanvas";
 
 const Hero = () => {
   return (
 
-    <div className="flex flex-col md:flex-row dark:bg-zinc-900 pt-24 justify-between items-center">
-          <div className="absolute w-screen h-[120%] dark:hidden  sm:h-[120%] md:h-[70%] lg:h-screen opacity-45 -z-10 top-0 left-0">
+    <div className="flex flex-col md:flex-row bg-background pt-24 justify-between items-center">
+          {/* <div className="absolute w-screen h-[120%] dark:hidden  sm:h-[120%] md:h-[70%] lg:h-screen opacity-45 -z-10 top-0 left-0">
             <Novatrix/>
-            </div>  
+            </div>   */}
       <div className="poppins-medium flex flex-col justify-center w-full md:w-[45%] py-10 px-4 md:px-0 ">
-        <h1 className="sm:text-4xl text-3xl poppins-regular leading-relaxed lg:text-6xl">
-          Develop your skills in a new and unique way
-        </h1>
+       <h1 className="poppins-regular text-4xl leading-tight tracking-tight text-foreground sm:text-5xl lg:text-6xl"> Learn the right skills. <span className="block text-primary"> Build with confidence. </span> </h1>
         <p className="text-base md:text-sm py-4 text-zinc-500">
           Explore a transformative approach to skill development on our online
           learning platform. Uncover a new realm of learning experiences and
