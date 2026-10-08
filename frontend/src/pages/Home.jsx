@@ -121,7 +121,7 @@ function Home() {
           Loading popular courses...
         </p>
       </div>
-    ) : courses.length > 0 ? (
+    ) : courses?.length > 0 ? (
       <div className="flex flex-wrap justify-center gap-6 md:gap-8">
         {courses.map((course) => (
           <Card
