@@ -1,36 +1,23 @@
-const express = require("express");
+
 const zod = require("zod");
 const { User } = require("../../db/db.js");
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
 const bcrypt = require("bcrypt");
-const { sendEmail } = require("../sendMail.js");
 const crypto = require("crypto");
+const { sendEmail } = require("../sendMail.js");
 
 const saltRounds = 10;
 
-// SignUp Schema
 const signupSchema = zod.object({
-  name: zod
-    .string()
-    .trim()
-    .min(3, "Name must be at least 3 characters")
-    .max(30, "Name must not exceed 30 characters"),
-
+  name: zod.string().trim().min(3).max(30),
   email: zod
     .string()
     .trim()
-    .email("Please enter a valid email address")
+    .email()
     .transform((email) => email.toLowerCase()),
-
-  password: zod
-    .string()
-    .min(6, "Password must be at least 6 characters")
-    .max(16, "Password must not exceed 16 characters"),
+  password: zod.string().min(6).max(16),
 });
 
-async function signupMiddleware(req, res, next) {
-  // Validate request body
+async function signupMiddleware(req, res) {
   const response = signupSchema.safeParse(req.body);
 
   if (!response.success) {
@@ -41,75 +28,79 @@ async function signupMiddleware(req, res, next) {
     });
   }
 
-  // Use validated data
   const { name, email, password } = response.data;
 
   try {
-    // Check if email already exists
-    const existingUser = await User.findOne({ email });
+    let user = await User.findOne({ email });
 
-    if (existingUser) {
+    if (user && user.isVerified) {
       return res.status(409).json({
         success: false,
         message: "Email is already registered.",
       });
     }
 
-    // Hash password
     const hashPassword = await bcrypt.hash(password, saltRounds);
 
-    // Create user
-    const user = await User.create({
-      name,
-      email,
-      password: hashPassword,
-    });
+    if (!user) {
+      user = await User.create({
+        name,
+        email,
+        password: hashPassword,
+        isVerified: false,
+      });
+    } else {
+      // Update details for an existing unverified account.
+      user.name = name;
+      user.password = hashPassword;
+    }
 
-    // Generate OTP
+    // Generate a six-digit OTP and hash it.
     const otp = crypto.randomInt(100000, 1000000);
+    const otpHash = await bcrypt.hash(String(otp), saltRounds);
 
-    // Save OTP
-    await User.findByIdAndUpdate(user._id, {
-      validationCode: otp,
-      validationCodeCreatedAt: new Date(),
-    });
+    user.validationCode = otpHash;
+    user.validationCodeCreatedAt = new Date();
 
-    // Create authentication token
-    const token = jwt.sign(
-      {
-        name: user.name,
-        email: user.email,
-      },
-      process.env.SECRET_KEY,
-    );
+    await user.save();
 
-    // Send OTP email
+    // Do not issue an authentication JWT before verification.
     await sendEmail(
       user.email,
       user.name,
-      "Validation of Account",
+      "Verify Your SkillHub Account",
       `
-        <h2>Validate Your SkillHub Account</h2>
-        <p>Hello ${user.name},</p>
-        <p>Your OTP is:</p>
+        <h2>Verify Your SkillHub Account</h2>
+        <p>Hello ${escapeHtml(user.name)},</p>
+        <p>Your verification code is:</p>
         <h1>${otp}</h1>
-        <p><strong>Do not share this OTP with anyone.</strong></p>
-      `,
+        <p>This code expires in 5 minutes.</p>
+        <p><strong>Do not share this code with anyone.</strong></p>
+      `
     );
 
     return res.status(201).json({
       success: true,
-      message: "Account created successfully. OTP has been sent to your email.",
-      token,
+      message: "Verification code sent. Please verify your email.",
     });
   } catch (error) {
-    console.error("Signup error:", error);
+    console.error("Signup error:", error.code || error.name);
 
     return res.status(500).json({
       success: false,
-      message: "Internal server error",
+      message: "Unable to complete signup. Please try again.",
     });
   }
+}
+
+function escapeHtml(value) {
+  return value.replace(/[&<>"']/g, (char) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+  })[char]);
 }
 
 module.exports = { signupMiddleware };
