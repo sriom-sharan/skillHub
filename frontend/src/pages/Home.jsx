@@ -10,7 +10,7 @@ import online from "../assets/online-course.mp4";
 import axios from "../utils/axios";
 
 import { useState, useEffect } from "react";
-import { getCourses } from "@/utils/getLists";
+// import { getCourses } from "@/utils/getLists";
 import CompanyLogo from "@/components/partials/companyLogo";
 import Card from "@/components/card";
 import Footer from "@/components/footer";

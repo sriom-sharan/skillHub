@@ -20,7 +20,7 @@ const userSchema = new Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     qualification: { type: String },
-    validationCode: { type: Number, maxlength: 6, minlength: 6 },
+    validationCode: { type: String},
     validationCodeCreatedAt: { type: Date },
     isVerified: { type: Boolean, default: false },
     role: {
