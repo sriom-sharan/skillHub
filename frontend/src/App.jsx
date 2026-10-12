@@ -12,6 +12,7 @@ import Error from "./pages/Error";
 import UserProfile from "./pages/UserProfile";
 import Lecture from "./pages/Lecture";
 import About from "./pages/About";
+import AIChat from "./components/AIChat";
 
 function App() {
   const [isLoggedin, setIsLoggedin] = useState(false);
@@ -64,6 +65,7 @@ function App() {
           {/* 404 */} <Route path="*" element={<Error />} />
           {/* <Route path='/*' element={<Error />} /> */}
         </Routes>
+        <AIChat/>
       </AuthContext.Provider>
     </ThemeProvider>
   );

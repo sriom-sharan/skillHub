@@ -11,6 +11,8 @@ var courseRouter = require('./routes/courses');
 var adminRouter = require('./routes/admin');
 var authRouter = require('./routes/auth');
 var enrollRouter = require('./routes/enrollment');
+const aiRoutes = require("./routes/aiRoutes");
+
 const cors = require('cors')
 var app = express();
 
@@ -33,7 +35,7 @@ app.use('/courses', courseRouter);
 app.use('/auth', authRouter);
 app.use('/admin', adminRouter);
 app.use('/enrollment', enrollRouter);
-
+app.use("/ai", aiRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

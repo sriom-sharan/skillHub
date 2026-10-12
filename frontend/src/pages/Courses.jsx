@@ -453,7 +453,7 @@ const Courses = () => {
             Categories
         --------------------------------------------------- */}
 
-        <div className="mb-10 overflow-x-auto pb-2">
+        <div className="mb-10 sidebar-scroll overflow-x-auto pb-2">
           <div className="flex min-w-max gap-2">
 
             {CATEGORIES.map((category) => (
