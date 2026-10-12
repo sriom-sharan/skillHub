@@ -1,7 +1,7 @@
 import axios from 'axios';
 
  const instance  = axios.create({
-  baseURL: "http://localhost:3000/",
+  baseURL: "https://skillhub-8nsp.onrender.com",
   headers: {
     accept: 'application/json',
     Authorization: `Bearer ${localStorage.getItem("token")}`
