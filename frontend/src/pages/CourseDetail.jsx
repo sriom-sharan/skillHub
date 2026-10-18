@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -99,7 +99,7 @@ const CourseDetail = () => {
         setError("");
 
         const { data } = await axios.get(
-          `/enrollment/${courseId}`
+          `/courses/enroll/${courseId}`
         );
 
         setIsEnrolled(Boolean(data?.enrolled));
@@ -431,7 +431,7 @@ const CourseDetail = () => {
                       />
 
                       <h2 className="text-xl font-semibold">
-                        You're enrolled
+                        You&apos;re enrolled
                       </h2>
                     </div>
 
@@ -734,7 +734,7 @@ const CourseDetail = () => {
               {/* Skills */}
               <div className="rounded-2xl border border-border p-6">
                 <h2 className="text-lg font-semibold">
-                  Skills you'll gain
+                  Skills you&apos;ll gain
                 </h2>
 
                 <div className="mt-5 space-y-3">

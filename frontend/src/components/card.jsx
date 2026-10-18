@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 import {
   PlayCircle,
   Users,
@@ -11,24 +12,6 @@ const FALLBACK_THUMBNAIL =
 const Card = ({ course }) => {
   if (!course) return null;
 
-  /*
-   * Your backend stores:
-   *
-   * videos: [
-   *   {
-   *     title,
-   *     description,
-   *     thumbnails: {
-   *       default: { url },
-   *       medium: { url },
-   *       high: { url }
-   *     },
-   *     resourceId: {
-   *       videoId
-   *     }
-   *   }
-   * ]
-   */
 
   const firstVideo = course.videos?.[0];
 
@@ -41,7 +24,7 @@ const Card = ({ course }) => {
 
   return (
     <Link
-      to={`/courses/${course._id}`}
+      to={`/courses/${course._id || course.courseId}`}
       className="
         group flex w-full flex-col
         overflow-hidden rounded-xl
@@ -173,6 +156,10 @@ const Card = ({ course }) => {
       </div>
     </Link>
   );
+};
+
+Card.propTypes = {
+  course: PropTypes.object,
 };
 
 export default Card;

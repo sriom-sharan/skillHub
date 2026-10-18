@@ -105,7 +105,9 @@ const courseSchema = new Schema(
                 "Business",
                 "Finance",
                 "Personal Development",
-                "Health & Fitness"
+                "Health & Fitness",
+                "Programming Language",
+                "Software Development"
             ],
             required: true,
             index: true

@@ -6,12 +6,21 @@ var logger = require('morgan');
 var bodyParser = require('body-parser')
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var courseRouter = require('./routes/courses');
-var adminRouter = require('./routes/admin');
-var authRouter = require('./routes/auth');
-var enrollRouter = require('./routes/enrollment');
-const aiRoutes = require("./routes/aiRoutes");
+// var usersRouter = require('./routes/users');
+// var courseRouter = require('./routes/courses');
+// var adminRouter = require('./routes/admin');
+// var authRouter = require('./routes/auth');
+// var enrollRouter = require('./routes/enrollment');
+// const aiRoutes = require("./routes/aiRoutes");
+
+var usersRouter = require('./routes/user.routes');
+var courseRouter = require('./routes/course.routes');
+var adminRouter = require('./routes/admin.routes');
+var authRouter = require('./routes/auth.routes');
+// var enrollRouter = require('./routes/enrollment');
+const aiRoutes = require("./routes/ai.routes");
+
+
 
 const cors = require('cors')
 var app = express();
@@ -34,7 +43,7 @@ app.use('/users', usersRouter);
 app.use('/courses', courseRouter);
 app.use('/auth', authRouter);
 app.use('/admin', adminRouter);
-app.use('/enrollment', enrollRouter);
+// app.use('/enrollment', enrollRouter);
 app.use("/ai", aiRoutes);
 
 // catch 404 and forward to error handler
