@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { askAI } = require("../controllers/aiController.js");
+const { askAI } = require("../controllers/ai.controller.js");
 
 // Add your existing authentication middleware here
 // before enabling this route for students.

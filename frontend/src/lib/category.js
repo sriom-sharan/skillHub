@@ -24,4 +24,6 @@ export const categories = [
     "Finance",
     "Personal Development",
     "Health & Fitness",
+    "Programming Language",
+    "Software Development"
   ];

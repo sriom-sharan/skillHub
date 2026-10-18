@@ -26,8 +26,8 @@ const CreateCourse = () => {
       setError("");
       try {
         const response = await postData("courses/create-course", values);
-        if (response.msg === "Course Created Successfully") {
-          navigate("/dashboard");
+        if (response.success) {
+          navigate("/courses");
         } else {
           setError(response.msg || "Course creation failed");
         }
@@ -145,8 +145,9 @@ const CreateCourse = () => {
         <button
           className="main-gradient py-2 rounded-full poppins-medium mt-8"
           type="submit"
+          disabled={loading}
         >
-          Create
+         {loading?"Creating...":"Create"}
         </button>
       </form>
     </div>

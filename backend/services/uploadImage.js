@@ -18,15 +18,4 @@ const uploadImage = async (filePath) => {
     }
   };
 
-  
-  
-//   const createCourse = async (courseData, imagePath) => {
-//     const imageUrl = await uploadImage(imagePath);
-//     const newCourse = new Course({
-//       ...courseData,
-//       image: imageUrl, // Store the image URL in MongoDB
-//     });
-//     await newCourse.save();
-//     console.log('Course created successfully:', newCourse);
-//   };
-  
+  module.exports={uploadImage}
